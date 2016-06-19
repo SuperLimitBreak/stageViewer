@@ -1,0 +1,453 @@
+<html>
+<head>
+<title>Stage IDE</title>
+<script>
+var stages = {};
+var songs = {};
+</script>
+<script src="amecon.stage.js"></script>
+<script src="miku.song.js"></script>
+<script>
+
+Number.prototype.pad = function(size) {
+	var s = String(this);
+	while (s.length < (size || 2)) {s = "0" + s;}
+	return s;
+}
+
+function getRandomColor() {
+	var letters = '0123456789ABCDEF'.split('');
+	var color = '#';
+	for (var i = 0; i < 6; i++ ) {
+		color += letters[Math.floor(Math.random() * 16)];
+	}
+	return color;
+}
+
+
+var timestamp = 0;
+var songLength = 3 * 60 + 12;
+var timer = null;
+var tickInterval = 250;
+
+function tick() {
+	timestamp += tickInterval/1000;
+
+	/* update scrubber marker */
+	var pos = document.getElementById("pos");
+	pos.style.width = (timestamp / songLength * 100) +"%";
+
+	/* update scrubber timestamp */
+	document.getElementById("timestamp").innerHTML = "&nbsp;" + Math.floor(timestamp / 60).pad(2) + ":" + Math.floor(timestamp % 60).pad(2);
+	document.getElementById("timestamp-end").innerHTML = Math.floor(songLength / 60).pad(2) + ":" + Math.floor(songLength % 60).pad(2) + "&nbsp;";
+
+	/* update lights*/
+	//var lights = document.getElementById("stage").getElementsByClassName("light");
+	//for(var i=0; i<lights.length; i++) lights[i].style.background = getRandomColor();
+}
+
+function toggle() {
+	if(timer) pause();
+	else play();
+}
+
+function play() {
+	var vids = document.getElementsByTagName("VIDEO");
+	for(var i=0; i<vids.length; i++) vids[i].play();
+	var vids = document.getElementsByTagName("AUDIO");
+	for(var i=0; i<vids.length; i++) vids[i].play();
+
+	timer = setInterval(tick, tickInterval);
+}
+
+function pause() {
+	var vids = document.getElementsByTagName("VIDEO");
+	for(var i=0; i<vids.length; i++) vids[i].pause();
+	var vids = document.getElementsByTagName("AUDIO");
+	for(var i=0; i<vids.length; i++) vids[i].pause();
+
+	if(timer) {
+		clearInterval(timer);
+		timer = null;
+	}
+}
+
+function seekClick(evt, el) {
+	seek(((evt.x - el.offsetLeft) / el.offsetWidth) * songLength);  // global
+}
+function seek(ts) {
+	timestamp = ts;
+
+	function seekAll(vids) {
+		for(var i=0; i<vids.length; i++) {
+			vids[i].currentTime = timestamp;
+			if(timer) {
+				vids[i].play();
+			}
+			else {
+				vids[i].pause();
+			}
+		}
+	}
+
+	seekAll(document.getElementsByTagName("VIDEO"));
+	seekAll(document.getElementsByTagName("AUDIO"));
+
+	tick();
+}
+
+var lights = document.getElementsByClassName("light-channel");
+for(var i=0; i<lights.length; i++) lights[i].style.background = getRandomColor();
+
+var taggedElements = {};
+
+function loadStage(name) {
+	pause();
+	seek(0);
+	var stageData = stages[name];
+	console.log("Stage: " + stageData.name);
+	var stage = document.getElementById("stage");
+	stage.innerHTML = "";
+	var h = "";
+	for(var i=0; i<stageData.stage.length; i++) {
+		var ob = stageData.stage[i];
+		var el = document.createElement("div");
+		el.setAttribute("id", ob.name);
+		el.setAttribute("class", ob.type);
+		for (var property in ob.position) {
+		    el.style[property] = ob.position[property];
+		}
+		el.innerHTML = ob.name + (ob.innerHTML || "");
+		stage.appendChild(el);
+
+		for(var j=0; j<ob.tags.length; j++) {
+			var tag = ob.tags[j];
+			if(!taggedElements[tag]) taggedElements[tag] = [];
+			taggedElements[tag].push(ob.name);
+		}
+	}
+}
+
+function loadSong(name) {
+	pause();
+	seek(0);
+	var songData = songs[name];
+	console.log("Song: " + songData.name);
+	var frame = songData.frames["0:0:0"];
+	for(var i=0; i<frame.length; i++) {
+		var cmd = frame[i];
+		for(var j=0; j<cmd.tags.length; j++) {
+			var tag = cmd.tags[j];
+			var els = taggedElements[tag];
+			if(!els) continue;
+			for(var k=0; k<els.length; k++) {
+				var el = document.getElementById(els[k]);
+				if(el) {
+					if(cmd.audio) {
+						el.innerHTML = "";
+						var c = document.createElement("audio");
+						c.setAttribute("src", cmd.audio);
+						el.appendChild(c);
+					}
+					if(cmd.video) {
+						el.innerHTML = "";
+						var c = document.createElement("video");
+						c.setAttribute("muted", "true");
+						c.setAttribute("src", cmd.video);
+						el.appendChild(c);
+					}
+					if(cmd.color) {
+						el.style.background = cmd.color;
+					}
+				}
+			}
+		}
+	}
+}
+</script>
+<style>
+* {
+	box-sizing: border-box;
+}
+
+/********************************************************/
+
+#scene-select {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	padding: 4px;
+	background: #CCC;
+	border-bottom: 1px solid black;
+	border-right: 1px solid black;
+}
+
+/********************************************************/
+
+#stage {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	right: 0px;
+	bottom: 0px;
+	background: #444;
+	font-size: 0.7em;
+}
+
+#stage .light,
+#stage .screen,
+#stage .audio {
+	position: absolute;
+	text-align: center;
+	background: black;
+	color: white;
+}
+#stage .light {
+	opacity: 0.5;
+	width: 50px;
+	height: 50px;
+	border: 1px solid #0F0;
+}
+#stage .screen {
+	border: 1px solid red;
+}
+#stage .audio {
+	border: 1px solid black;
+}
+#stage .holo {
+	opacity: 0.5;
+}
+#stage .screen VIDEO {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	height: 100%;
+}
+
+/*********************************************************************/
+
+#controls {
+	position: absolute;
+	left: 0px;
+	right: 0px;
+	bottom: 0px;
+	background: #CCC;
+	border-top: 1px solid black;
+	padding: 4px;
+}
+#controls TBODY TR {
+	border-top: 1px solid black;
+	font-size: 0.7em;
+}
+#controls TBODY TR:nth-child(odd) {
+	background: #888;
+}
+#controls TBODY TD {
+	text-align: right;
+	padding-right: 4px;
+}
+#controls TBODY TD {
+	position: relative;
+}
+#controls .channel .block {
+	position: absolute;
+	top: 0px;
+	bottom: 0px;
+	background: #DDD;
+	border-left: 1px solid black;
+	border-right: 1px solid black;
+	padding-left: 4px;
+	padding-right 4px;
+	text-align: left;
+}
+#controls .scrubber #pos {
+	position: absolute;
+	top: 0px;
+	bottom: 0px;
+	left: 0px;
+	background: #88A;
+	border-left: 1px solid black;
+	border-right: 1px solid black;
+	opacity: 0.5;
+}
+</style>
+</head>
+
+<body>
+
+<div id="stage">
+</div>
+
+<div id="scene-select">
+	Stage Layout:
+	<select onchange="loadStage('amecon');">
+		<option value="amecon">Amecon</option>
+		<option value="minami">Minami</option>
+	</select>
+	&mdash;
+	Song:
+	<select onchange="loadSong('miku');">
+		<option>- None -</option>
+		<option value="miku">Miku Test</option>
+		<option value="song2">Song 2</option>
+	</select>
+</div>
+
+<div id="controls">
+	<table width="100%" style="border-collapse: collapse; border: 1px solid black;">
+		<thead>
+			<tr>
+				<td width="100">
+					<span onclick="start();">&#9198;</span>
+					<span onclick="toggle();">&#9199;</span>
+					<span onclick="end();">&#9197;</span>
+				</td>
+				<td class="scrubber" style="position: relative;" onclick="seekClick(event, this);">
+					<div id="pos"></div>
+					<span id="timestamp" class="">00:00</span>
+					<span id="timestamp-end" style="position: absolute; right: 0px;">00:00</span>
+				</td>
+			</tr>
+		</thead>
+		<tbody>
+			<tr class="channel audio" id="audio">
+				<td>audio</td>
+				<td>
+					<span class="block" style="left: 0%; width: 100%;">thesong.mp3</span>
+				</td>
+			</tr>
+			<tr class="channel light" id="left-top">
+				<td>left-top</td>
+				<td>
+					<span class="block" style="left: 00%; width: 10%; background: linear-gradient(to right, red, yellow);"></span>
+					<span class="block" style="left: 10%; width: 10%; background: yellow;"></span>
+					<span class="block" style="left: 20%; width: 10%; background: linear-gradient(to right, yellow, blue);"></span>
+					<span class="block" style="left: 30%; width: 10%; background: blue;"></span>
+					<span class="block" style="left: 40%; width: 10%; background: linear-gradient(to right, blue, red);"></span>
+					<span class="block" style="left: 50%; width: 10%; background: red;"></span>
+					<span class="block" style="left: 60%; width: 10%; background: linear-gradient(to right, red, yellow);"></span>
+					<span class="block" style="left: 70%; width: 10%; background: yellow;"></span>
+					<span class="block" style="left: 80%; width: 10%; background: linear-gradient(to right, yellow, blue);"></span>
+					<span class="block" style="left: 90%; width: 10%; background: blue;"></span>
+				</td>
+			</tr>
+			<tr class="channel light" id="left-bot">
+				<td>left-bot</td>
+				<td>
+					<span class="block" style="left: 00%; width: 10%; background: red;"></span>
+					<span class="block" style="left: 10%; width: 10%; background: linear-gradient(to right, red, blue);"></span>
+					<span class="block" style="left: 20%; width: 10%; background: blue;"></span>
+					<span class="block" style="left: 30%; width: 10%; background: red;"></span>
+					<span class="block" style="left: 40%; width: 10%; background: linear-gradient(to right, red, blue);"></span>
+					<span class="block" style="left: 50%; width: 10%; background: blue;"></span>
+					<span class="block" style="left: 60%; width: 10%; background: red;"></span>
+					<span class="block" style="left: 70%; width: 10%; background: linear-gradient(to right, red, blue);"></span>
+					<span class="block" style="left: 80%; width: 10%; background: blue;"></span>
+					<span class="block" style="left: 90%; width: 10%; background: red;"></span>
+				</td>
+			</tr>
+			<tr class="channel light" id="mid-top">
+				<td>mid-top</td>
+				<td>
+					<span class="block" style="left: 00%; width: 10%; background: red;"></span>
+					<span class="block" style="left: 10%; width: 10%; background: green;"></span>
+					<span class="block" style="left: 20%; width: 10%; background: linear-gradient(to right, green, red);"></span>
+					<span class="block" style="left: 30%; width: 10%; background: red;"></span>
+					<span class="block" style="left: 40%; width: 10%; background: green;"></span>
+					<span class="block" style="left: 50%; width: 10%; background: linear-gradient(to right, green, red);"></span>
+					<span class="block" style="left: 60%; width: 10%; background: red;"></span>
+					<span class="block" style="left: 70%; width: 10%; background: green;"></span>
+					<span class="block" style="left: 80%; width: 10%; background: linear-gradient(to right, green, red);"></span>
+					<span class="block" style="left: 90%; width: 10%; background: red;"></span>
+				</td>
+			</tr>
+			<tr class="channel light" id="mid-bot">
+				<td>mid-bot</td>
+				<td>
+					<span class="block" style="left: 00%; width: 10%; background: red;"></span>
+					<span class="block" style="left: 10%; width: 10%; background: green;"></span>
+					<span class="block" style="left: 20%; width: 10%; background: blue;"></span>
+					<span class="block" style="left: 30%; width: 10%; background: red;"></span>
+					<span class="block" style="left: 40%; width: 10%; background: green;"></span>
+					<span class="block" style="left: 50%; width: 10%; background: blue;"></span>
+					<span class="block" style="left: 60%; width: 10%; background: red;"></span>
+					<span class="block" style="left: 70%; width: 10%; background: green;"></span>
+					<span class="block" style="left: 80%; width: 10%; background: blue;"></span>
+					<span class="block" style="left: 90%; width: 10%; background: red;"></span>
+				</td>
+			</tr>
+			<tr class="channel light" id="right-top">
+				<td>right-top</td>
+				<td>
+					<span class="block" style="left: 00%; width: 10%; background: red;"></span>
+					<span class="block" style="left: 10%; width: 10%; background: green;"></span>
+					<span class="block" style="left: 20%; width: 10%; background: blue;"></span>
+					<span class="block" style="left: 30%; width: 10%; background: red;"></span>
+					<span class="block" style="left: 40%; width: 10%; background: green;"></span>
+					<span class="block" style="left: 50%; width: 10%; background: blue;"></span>
+					<span class="block" style="left: 60%; width: 10%; background: red;"></span>
+					<span class="block" style="left: 70%; width: 10%; background: green;"></span>
+					<span class="block" style="left: 80%; width: 10%; background: blue;"></span>
+					<span class="block" style="left: 90%; width: 10%; background: red;"></span>
+				</td>
+			</tr>
+			<tr class="channel light" id="right-bot">
+				<td>right-bot</td>
+				<td>
+					<span class="block" style="left: 00%; width: 10%; background: red;"></span>
+					<span class="block" style="left: 10%; width: 10%; background: green;"></span>
+					<span class="block" style="left: 20%; width: 10%; background: blue;"></span>
+					<span class="block" style="left: 30%; width: 10%; background: red;"></span>
+					<span class="block" style="left: 40%; width: 10%; background: green;"></span>
+					<span class="block" style="left: 50%; width: 10%; background: blue;"></span>
+					<span class="block" style="left: 60%; width: 10%; background: red;"></span>
+					<span class="block" style="left: 70%; width: 10%; background: green;"></span>
+					<span class="block" style="left: 80%; width: 10%; background: blue;"></span>
+					<span class="block" style="left: 90%; width: 10%; background: red;"></span>
+				</td>
+			</tr>
+			<tr class="channel screen" id="front-screen">
+				<td>front-screen</td>
+				<td>
+					<span class="block" style="left: 0%; width: 40%;">video://miku.mp4</span>
+					<span class="block" style="left: 40%; width: 40%; background: black;"></span>
+					<span class="block" style="left: 80%; width: 20%;">video://miku.mp4</span>
+				</td>
+			</tr>
+			<tr class="channel screen" id="back-screen">
+				<td>back-screen</td>
+				<td>
+					<span class="block" style="left: 0%; width: 60%;">video://twgok.mp4</span>
+					<span class="block" style="left: 60%; width: 40%; background: black;"></span>
+				</td>
+			</tr>
+			<tr class="channel screen" id="left-screen">
+				<td>left-screen</td>
+				<td>
+					<span class="block" style="left: 0%; width: 20%;">video://countdown.mp4</span>
+					<span class="block" style="left: 20%; width: 20%; background: black;"></span>
+					<span class="block" style="left: 40%; width: 20%;">video://countdown.mp4</span>
+					<span class="block" style="left: 60%; width: 20%; background: black;"></span>
+					<span class="block" style="left: 80%; width: 20%;">video://countdown.mp4</span>
+				</td>
+			</tr>
+			<tr class="channel screen" id="right-screen">
+				<td>right-screen</td>
+				<td>
+					<span class="block" style="left: 0%; width: 20%;">video://countdown.mp4</span>
+					<span class="block" style="left: 20%; width: 20%; background: black;"></span>
+					<span class="block" style="left: 40%; width: 20%;">video://countdown.mp4</span>
+					<span class="block" style="left: 60%; width: 20%; background: black;"></span>
+					<span class="block" style="left: 80%; width: 20%;">video://countdown.mp4</span>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+
+<script>
+loadStage("amecon");
+</script>
+</body>
+</html>
