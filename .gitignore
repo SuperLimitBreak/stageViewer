@@ -1,2 +1,6 @@
-*.mkv
-*.mp4
+/ext
+/node_modules
+/dist
+/coverage
+/karma-*
+*.log

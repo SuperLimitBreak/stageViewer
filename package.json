@@ -1,0 +1,79 @@
+{
+  "name": "stageViewer",
+  "version": "0.0.0",
+  "description": "",
+  "main": "app.js",
+  "dependencies": {
+    "core-js": "latest",
+    "normalize.css": "latest"
+  },
+  "devDependencies": {
+    "babel-core": "latest",
+    "babel-eslint": "latest",
+    "babel-loader": "latest",
+    "babel-polyfill": "latest",
+    "babel-preset-modern-browsers": "latest",
+    "babelify": "latest",
+    "copyfiles": "latest",
+    "css-loader": "latest",
+    "eslint": "latest",
+    "eslint-loader": "latest",
+    "eslint-plugin-native-over-lodash": "latest",
+    "file-loader": "latest",
+    "glob": "latest",
+    "immutable": "latest",
+    "jasmine-core": "latest",
+    "karma": "latest",
+    "karma-chrome-launcher": "latest",
+    "karma-firefox-launcher": "latest",
+    "karma-jasmine": "latest",
+    "karma-sourcemap-loader": "latest",
+    "karma-spec-reporter": "latest",
+    "karma-webpack": "latest",
+    "minimist": "latest",
+    "mocktail": "latest",
+    "node-sass": "latest",
+    "npm-run-all": "latest",
+    "null-loader": "latest",
+    "open": "latest",
+    "pubsub-js": "latest",
+    "pycollections": "latest",
+    "rimraf": "latest",
+    "sass-loader": "latest",
+    "style-loader": "latest",
+    "three-js": "latest",
+    "webpack": "latest",
+    "webpack-dev-server": "latest",
+    "webpack-validator": "latest"
+  },
+  "config": {
+    "ghooks": {
+      "pre-commit": "opt --in pre-commit --exec \"npm run validate\""
+    }
+  },
+  "scripts": {
+    "start": "webpack-dev-server",
+    "serve": "node server.js --env=dev",
+    "serve:dist": "node server.js --env=dist",
+    "test": "karma start",
+    "test:watch": "karma start --autoWatch=true --singleRun=false",
+    "validate": "npm-run-all --parallel validate-webpack:* lint test",
+    "validate-webpack:dev": "webpack-validator webpack.config.js --env.dev",
+    "validate-webpack:dist": "webpack-validator webpack.config.js --env.dist",
+    "dist": "npm run copy & webpack --env=dist",
+    "lint": "eslint ./src",
+    "copy": "copyfiles -f ./src/index.html ./src/favicon.ico ./dist",
+    "clean": "rimraf dist/*"
+  },
+  "repository": "git@github.com:SuperLimitBreak/stageViewer.git",
+  "keywords": [
+    "displayTrigger",
+    "html5",
+    "projector",
+    "dmx",
+    "lighting"
+  ],
+  "author": "superlimitbreak.uk",
+  "license": "GPL3",
+  "private": true
+}

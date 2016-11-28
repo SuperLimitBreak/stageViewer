@@ -1,11 +1,31 @@
+PATH_DISPLAY_TRIGGER=../../displayTrigger/display/src
 
-all: background.mp4 countdown.mp4 foreground.mkv
+help:
+	# stageViewer
+	#  - install
+	#  - run
+	#  - test
+	#  - clean
 
-foreground.mkv:
-	youtube-dl https://www.youtube.com/watch?v=1gMK3QdMeHE -o $@
+node_modules:
+	npm install
 
-countdown.mp4:
-	youtube-dl https://www.youtube.com/watch?v=hf_pq5EDh7w -o $@
+ext:
+	mkdir -p ext
+ext/displayTrigger: ext
+	ln -s $(PATH_DISPLAY_TRIGGER) $@
 
-background.mp4:
-	youtube-dl https://www.youtube.com/watch?v=QYoCmfvCHi0 -o $@
+.PHONY: install
+install: node_modules ext/displayTrigger
+
+run: install
+	npm run start
+
+test: install
+	npm run validate
+
+clean:
+	rm -rf dist/
+	rm -rf ext/
+	rm -rf node_modules/
+	rm -rf *.log
