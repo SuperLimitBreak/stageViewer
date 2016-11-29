@@ -1,14 +1,18 @@
 import 'core-js/fn/object/assign';
 
-import {ScreenMessageRouter} from 'ext/displayTrigger/screen/ScreenMessageRouter';
-import {SubscriptionSocketReconnect} from 'ext/displayTrigger/socket/websocket';
-import {getUrlParameter} from 'ext/displayTrigger/utils/utils';
+import THREELib from "three-js";
+const THREE = THREELib(["EffectComposer"]);
+
+import {ScreenMessageRouter} from './ext/displayTrigger/screen/ScreenMessageRouter';
+//import {SubscriptionSocketReconnect} from 'ext/displayTrigger/socket/websocket';
+//import {getUrlParameter} from 'ext/displayTrigger/utils/utils';
 
 const Immutable = require('immutable');
 
 require('normalize.css/normalize.css');
 require('./styles/main.scss');
 
+console.log('hello');
 
 const body = document.getElementsByTagName('body').item(0);
 
@@ -16,9 +20,9 @@ const DEFAULT_SCENE_CONFIG = Immutable.fromJS({
 
 });
 
-const screenMessageRouter = new ScreenMessageRouter(
-    new SubscriptionSocketReconnect()
-);
+//const screenMessageRouter = new ScreenMessageRouter(
+//    new SubscriptionSocketReconnect()
+//);
 
 function initScreens(config) {
     for (let [screen_name, screen_data] of config) {
@@ -26,7 +30,7 @@ function initScreens(config) {
     }
 }
 
-const config_url = `/assets/stage/${getUrlParameter('stage_config') || 'default'}.json`;
+const config_url = '' ; // `/assets/stage/${getUrlParameter('stage_config') || 'default'}.json`;
 fetch(config_url).then(response => {
     return response.json();
 }).then(data => {

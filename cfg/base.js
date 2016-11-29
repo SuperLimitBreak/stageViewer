@@ -7,10 +7,10 @@ let defaultSettings = require('./defaults');
 // @example:
 // let npmBase = path.join(__dirname, '../node_modules');
 // let additionalPaths = [ path.join(npmBase, 'react-bootstrap') ];
-let additionalPaths = [];
+let additionalPaths = [path.join(__dirname, '/../ext'), ];
 
 module.exports = {
-  //additionalPaths: additionalPaths,
+  additionalPaths: additionalPaths,
   //port: defaultSettings.port,
   debug: true,
   devtool: 'eval',
@@ -35,7 +35,7 @@ module.exports = {
     extensions: ['', '.js', '.jsx'],
     alias: {
       ext: path.join(__dirname, '/../ext'),
-      src: `${defaultSettings.srcPath}/`,
+      src: `${defaultSettings.srcPath}`,
       config: `${defaultSettings.srcPath}/config/${process.env.WEBPACK_ENV}`
     }
   },

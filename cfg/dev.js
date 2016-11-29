@@ -32,8 +32,10 @@ config.module.loaders.push({
   test: /\.(js|jsx)$/,
   loader: 'babel-loader',
   include: [].concat(
-    //config.additionalPaths,
-    [ path.join(__dirname, '/../src') ]
+    config.additionalPaths,
+    [
+      path.join(__dirname, '/../src')
+    ]
   ),
   query: {
     //presets: ['es2015-webpack',],
