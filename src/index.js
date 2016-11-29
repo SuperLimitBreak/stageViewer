@@ -26,7 +26,7 @@ function initScreens(config) {
     }
 }
 
-const config_url = `/assets/stage/${getUrlParameter('stage_config') || 'default'}.json`);
+const config_url = `/assets/stage/${getUrlParameter('stage_config') || 'default'}.json`;
 fetch(config_url).then(response => {
     return response.json();
 }).then(data => {

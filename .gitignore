@@ -4,3 +4,4 @@
 /coverage
 /karma-*
 *.log
+*/.DS_Store
