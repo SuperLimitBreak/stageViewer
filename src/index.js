@@ -1,9 +1,9 @@
 import 'core-js/fn/object/assign';
 
-import THREELib from "three-js";
-const THREE = THREELib(["EffectComposer"]);
+import THREELib from 'three-js';
+const THREE = THREELib(['EffectComposer']);
 
-import {ScreenMessageRouter} from './ext/displayTrigger/screen/ScreenMessageRouter';
+import {ScreenMessageRouter} from 'displayTrigger';
 //import {SubscriptionSocketReconnect} from 'ext/displayTrigger/socket/websocket';
 //import {getUrlParameter} from 'ext/displayTrigger/utils/utils';
 
@@ -12,7 +12,7 @@ const Immutable = require('immutable');
 require('normalize.css/normalize.css');
 require('./styles/main.scss');
 
-console.log('hello');
+console.log(ScreenMessageRouter);
 
 const body = document.getElementsByTagName('body').item(0);
 

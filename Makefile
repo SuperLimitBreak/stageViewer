@@ -10,13 +10,15 @@ help:
 node_modules:
 	npm install
 
-ext:
-	mkdir -p ext
-ext/displayTrigger: ext
-	ln -s $(PATH_DISPLAY_TRIGGER) $@
+#ext:
+#	mkdir -p ext
+#ext/displayTrigger: ext
+#	ln -s $(PATH_DISPLAY_TRIGGER) $@
+node_modules/displayTrigger:
+	npm link ../displayTrigger/display
 
 .PHONY: install
-install: node_modules ext/displayTrigger
+install: node_modules node_modules/displayTrigger
 
 run: install
 	npm run start
