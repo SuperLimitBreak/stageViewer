@@ -3,7 +3,7 @@ import 'core-js/fn/object/assign';
 import THREELib from 'three-js';
 const THREE = THREELib(['EffectComposer']);
 
-import {ScreenMessageRouter} from 'displayTrigger';
+import {ScreenMessageRouter} from './ext/displayTrigger/screen/ScreenMessageRouter';
 //import {SubscriptionSocketReconnect} from 'ext/displayTrigger/socket/websocket';
 //import {getUrlParameter} from 'ext/displayTrigger/utils/utils';
 

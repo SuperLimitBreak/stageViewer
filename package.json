@@ -18,7 +18,6 @@
     "css-loader": "latest",
     "eslint": "latest",
     "eslint-loader": "latest",
-    "eslint-plugin-native-over-lodash": "latest",
     "file-loader": "latest",
     "glob": "latest",
     "immutable": "latest",
@@ -43,9 +42,8 @@
     "sass-loader": "latest",
     "style-loader": "latest",
     "three-js": "latest",
-    "webpack": "latest",
-    "webpack-dev-server": "latest",
-    "webpack-validator": "latest"
+    "webpack": "^2.1.0-beta.27",
+    "webpack-dev-server": "^2.1.0-beta.10"
   },
   "config": {
     "ghooks": {
