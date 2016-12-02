@@ -6,3 +6,5 @@
 /karma-*
 *.log
 */.DS_Store
+
+webpack.config.js

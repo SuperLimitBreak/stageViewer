@@ -8,8 +8,12 @@ const Immutable = require('immutable');
 require('normalize.css/normalize.css');
 
 
-import displayTrigger from 'displayTrigger';
-console.log(displayTrigger);
+//import {ScreenMessageRouter} from 'displayTrigger/src/screen/ScreenMessageRouter';
+//console.log(ScreenMessageRouter);
+
+import {ScreenMessageRouter} from 'displayTrigger';
+//console.log(moose);
+console.log(ScreenMessageRouter);
 
 require('./styles/main.scss');
 

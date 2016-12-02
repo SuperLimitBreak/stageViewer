@@ -1,24 +1,24 @@
-PATH_DISPLAY_TRIGGER=../../displayTrigger/display/src
+PATH_DISPLAY_TRIGGER=../displayTrigger/display
+
 
 help:
 	# stageViewer
-	#  - install
-	#  - run
-	#  - test
-	#  - clean
+	#   - install  - Install node_modules and link to $(PATH_DISPLAY_TRIGGER)
+	#   - run      - Dev server
+	#   - test     - Karama tests in chrome
+	#   - clean    - Reset to clean checkout
 
 node_modules:
 	npm install
 
-#ext:
-#	mkdir -p ext
-#ext/displayTrigger: ext
-#	ln -s $(PATH_DISPLAY_TRIGGER) $@
 node_modules/displayTrigger:
-	npm link ../displayTrigger/display
+	npm link PATH_DISPLAY_TRIGGER
+
+webpack.config.js:
+	ln PATH_DISPLAY_TRIGGER/$@ $@
 
 .PHONY: install
-install: node_modules node_modules/displayTrigger
+install: node_modules node_modules/displayTrigger webpack.config.js
 
 run: install
 	npm run start
@@ -32,3 +32,4 @@ clean:
 	rm -rf node_modules/
 	rm -rf static/
 	rm -rf *.log
+	rm -rf webpack.config.js
