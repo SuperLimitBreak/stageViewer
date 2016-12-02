@@ -24,10 +24,11 @@ run: install
 	npm run start
 
 test: install
-	npm run validate
+	npm run test
 
 clean:
 	rm -rf dist/
 	rm -rf ext/
 	rm -rf node_modules/
+	rm -rf static/
 	rm -rf *.log
