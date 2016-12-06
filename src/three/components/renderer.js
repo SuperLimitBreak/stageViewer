@@ -11,9 +11,9 @@ export default class Renderer {
 
     this.threeRenderer = new THREE.CSS3DRenderer();
 
-    threeRenderer.domElement.style.position = 'absolute';
-    threeRenderer.domElement.style.top = 0;
-    threeRenderer.domElement.id = 'three';
+    this.threeRenderer.domElement.style.position = 'absolute';
+    this.threeRenderer.domElement.style.top = 0;
+    this.threeRenderer.domElement.id = 'three';
 
     // Set clear color to fog to enable fog or to hex color for no fog
     //this.threeRenderer.setClearColor(scene.fog.color);

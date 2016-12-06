@@ -1,5 +1,7 @@
+/* global __ENV__ */
+
 export default {
-    isDev: __ENV__ == 'dev',
+    isDev: __ENV__ == 'development',
     isLoaded: false,
     dpr: 1,
     camera: {

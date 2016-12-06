@@ -7,7 +7,7 @@ require('./styles/main.scss');
 
 import {SubscriptionSocketReconnect, ScreenMessageRouter, utils} from 'displayTrigger';
 
-import Config from './data/config';
+import Config from './data/three.config';
 import Main from './three/main';
 
 
@@ -23,12 +23,12 @@ function initStage(data) {
     new Main(body)
 }
 
-const config_url = static_url(`/data/stage_${getUrlParameter('stage_config') || 'default'}.json`);
+const config_url = `/data/stage_${utils.getUrlParameter('stage_config') || 'default'}.json`;
 fetch(config_url).then(response => {
     return response.json();
 }).then(data => {
     initStage(Immutable.fromJS(data));
 }).catch(error => {
     console.error(`Unable to load ${config_url} for stage config. Falling back to default`, error);
-    initScreens(DEFAULT_STAGE_CONFIG);
+    initStage(DEFAULT_STAGE_CONFIG);
 });
