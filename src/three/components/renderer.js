@@ -1,48 +1,34 @@
 import * as THREE from 'three';
+require('three/examples/js/renderers/CSS3DRenderer');
+//import * as CSS3DRenderer from 'three/examples/js/renderers/CSS3DRenderer';
 
-import Config from '../../data/three.config';
+//import Config from '../../data/three.config';
 
-// Main webGL renderer class
+
 export default class Renderer {
-  constructor(scene, container) {
-    // Properties
-    this.scene = scene;
-    this.container = container;
+    constructor(scene, container) {
+        this.scene = scene;
+        this.container = container;
 
-    this.threeRenderer = new THREE.CSS3DRenderer();
+        this.threeRenderer = new THREE.CSS3DRenderer();
 
-    this.threeRenderer.domElement.style.position = 'absolute';
-    this.threeRenderer.domElement.style.top = 0;
-    this.threeRenderer.domElement.id = 'three';
+        this.threeRenderer.domElement.style.position = 'absolute';
+        this.threeRenderer.domElement.style.top = 0;
+        this.threeRenderer.domElement.id = 'three';
 
-    // Set clear color to fog to enable fog or to hex color for no fog
-    //this.threeRenderer.setClearColor(scene.fog.color);
-    //this.threeRenderer.setPixelRatio(window.devicePixelRatio); // For retina
+        container.appendChild(this.threeRenderer.domElement);
 
-    // Appends canvas
-    container.appendChild(this.threeRenderer.domElement);
+        this.updateSize();
 
-    // Shadow map options
-    //this.threeRenderer.shadowMap.enabled = true;
-    //this.threeRenderer.shadowMap.type = THREE.PCFSoftShadowMap;
+        document.addEventListener('DOMContentLoaded', () => this.updateSize(), false);
+        window.addEventListener('resize', () => this.updateSize(), false);
+    }
 
-    // Get anisotropy for textures
-    //Config.maxAnisotropy = this.threeRenderer.getMaxAnisotropy();
+    updateSize() {
+        this.threeRenderer.setSize(this.container.offsetWidth, this.container.offsetHeight);
+    }
 
-    // Initial size update set to canvas container
-    this.updateSize();
-
-    // Listeners
-    document.addEventListener('DOMContentLoaded', () => this.updateSize(), false);
-    window.addEventListener('resize', () => this.updateSize(), false);
-  }
-
-  updateSize() {
-    this.threeRenderer.setSize(this.container.offsetWidth, this.container.offsetHeight);
-  }
-
-  render(scene, camera) {
-    // Renders scene to canvas target
-    this.threeRenderer.render(scene, camera);
-  }
+    render(scene, camera) {
+        this.threeRenderer.render(scene, camera);
+    }
 }
