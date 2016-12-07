@@ -14,5 +14,8 @@ export default {
         posZ: 40,
     },
     controls: {
+        enableDamping: true,
+        dampingFactor: 0.25,
+        enableZoom: true,
     },
 };
