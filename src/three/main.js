@@ -5,7 +5,7 @@ import Renderer from './components/renderer';
 import Camera from './components/camera';
 import Controls from './components/controls';
 
-import Config from '../data/three.config';
+import Config from './three.config';
 
 
 export default class ThreeMain {

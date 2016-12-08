@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 require('three/examples/js/controls/OrbitControls');
 
-import Config from '../../data/three.config';
+import Config from '../three.config';
 
 
 export default class Controls {

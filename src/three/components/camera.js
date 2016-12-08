@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 
-import Config from '../../data/three.config';
+import Config from '../three.config';
 
 // Class that creates and updates the main camera
 export default class Camera {
