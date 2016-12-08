@@ -36,7 +36,7 @@ const screenMessageRouter = new ScreenMessageRouter(
 const DEFAULT_STAGE_CONFIG = Immutable.fromJS({
     screens: {
         front: {
-            style: 'width: 720px; height: 512px; opacity: 50%;',
+            style: 'width: 720px; height: 512px; opacity: 0.5;',
             subscriptions: ['main', 'front'],
             z: 200,
         },
