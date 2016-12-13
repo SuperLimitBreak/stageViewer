@@ -31,8 +31,8 @@ export const DEFAULT_STAGE_CONFIG = Immutable.fromJS({
     lights: {
         floorLarge1: {
             device: 'RGBStripLight', size: 8,
-            style: 'width: 200px; height: 512px; background: linear-gradient(to top, rgba(255,0,0,1), rgba(255,0,0,0) );',
-            position: {x: 0, y: 0, z: 0},
+            style: 'width: 300px; height: 500px; background: linear-gradient(to top, rgba(255,0,0,1), rgba(255,0,0,0) );',
+            position: {x: 500, y: 200 , z: -200},
             rotation: {x: -45},
         }
     }

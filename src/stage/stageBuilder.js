@@ -21,7 +21,7 @@ function createCSS3DObject(data) {
 export function initStage(three, screenMessageRouter, lightManager, config) {
     if (!config) {config = DEFAULT_STAGE_CONFIG;}
 
-    // displayTrigger
+    // screens - displayTrigger
     for (let [screen_name, screen_data] of config.get('screens', EMPTY_MAP)) {
         const CSS3DObject = createCSS3DObject(screen_data);
         three.scene.add(CSS3DObject);
@@ -35,5 +35,10 @@ export function initStage(three, screenMessageRouter, lightManager, config) {
     }
 
     // lights
+    for (let [light_name, light_data] of config.get('lights', EMPTY_MAP)) {
+        const CSS3DObject = createCSS3DObject(light_data);
+        three.scene.add(CSS3DObject);
+        lightManager.bindLight(light_name, light_data, CSS3DObject.element);
+    }
 
 }
