@@ -15,20 +15,25 @@ export const DEFAULT_STAGE_CONFIG = Immutable.fromJS({
     },
     stage: {
         'stage_floor': {
-            style: 'width: 2000px; height: 500px; background-color: #777; border: 1px solid red;',
+            style: 'width: 2000px; height: 500px; background-color: #333; border: 1px solid #777;',
             rotation: {x: -90},
             position: {x: 0, y: 0, z: -250},
         },
         'stage_front': {
-            style: 'width: 2000px; height: 100px; background-color: #777; border: 1px solid red;',
+            style: 'width: 2000px; height: 100px; background-color: #333; border: 1px solid #777;',
             position: {x: 0, y: -50, z: 0},
         },
         'stage_back': {
-            style: 'width: 2000px; height: 1500px; background-color: #777; border: 1px solid red;',
-            position: {x: 0, y: 750, z: -500},
+            style: 'width: 2000px; height: 1100px; background-color: #333; border: 1px solid #777;',
+            position: {x: 0, y: 550, z: -500},
         },
     },
     lights: {
-
+        floorLarge1: {
+            device: 'RGBStripLight', size: 8,
+            style: 'width: 200px; height: 512px; background: linear-gradient(to top, rgba(255,0,0,1), rgba(255,0,0,0) );',
+            position: {x: 0, y: 0, z: 0},
+            rotation: {x: -45},
+        }
     }
 });

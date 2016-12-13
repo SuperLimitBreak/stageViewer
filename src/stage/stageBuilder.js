@@ -18,7 +18,7 @@ function createCSS3DObject(data) {
     return CSS3DObject;
 }
 
-export function initStage(three, screenMessageRouter, config) {
+export function initStage(three, screenMessageRouter, lightManager, config) {
     if (!config) {config = DEFAULT_STAGE_CONFIG;}
 
     // displayTrigger

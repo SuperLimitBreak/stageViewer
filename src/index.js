@@ -9,13 +9,10 @@ import {SubscriptionSocketReconnect, ScreenMessageRouter, utils} from 'displayTr
 import * as THREE from 'three';
 import ThreeMain from './three/main';
 import {initStage} from './stage/stageBuilder';
+import {LightManager} from './lights/LightManager';
 
-
-// -----------------------------------------------------------------------------
 
 const body = document.getElementsByTagName('body').item(0);
-
-// Three.js CSSRenderer --------------------------------------------------------
 
 const container = document.createElement('div');
 container.style.position = 'absolute';
@@ -29,8 +26,10 @@ const screenMessageRouter = new ScreenMessageRouter(
     new SubscriptionSocketReconnect()
 );
 
+const lightManager = new LightManager();
+
 function _initStage(config) {
-    return initStage(three, screenMessageRouter, config);
+    return initStage(three, screenMessageRouter, lightManager, config);
 }
 
 // Fallback Config -------------------------------------------------------------
