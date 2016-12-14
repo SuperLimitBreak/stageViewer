@@ -38,7 +38,7 @@ export function initStage(three, screenMessageRouter, lightManager, config) {
     for (let [light_name, light_data] of config.get('lights', EMPTY_MAP)) {
         const CSS3DObject = createCSS3DObject(light_data);
         three.scene.add(CSS3DObject);
-        lightManager.bindLight(light_name, light_data, CSS3DObject.element);
+        lightManager.bindLight(light_name, light_data, CSS3DObject);
     }
 
 }
