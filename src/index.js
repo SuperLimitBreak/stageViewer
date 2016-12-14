@@ -21,12 +21,9 @@ container.style.width = '100%';
 body.appendChild(container);
 
 const three = new ThreeMain(container);
-
-const screenMessageRouter = new ScreenMessageRouter(
-    new SubscriptionSocketReconnect()
-);
-
-const lightManager = new LightManager();
+const subscription_socket = new SubscriptionSocketReconnect();
+const screenMessageRouter = new ScreenMessageRouter(subscription_socket);
+const lightManager = new LightManager(subscription_socket);
 
 function _initStage(config) {
     return initStage(three, screenMessageRouter, lightManager, config);
