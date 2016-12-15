@@ -2,8 +2,8 @@
 export class LightManager {
     constructor(subscription_socket) {
         this.lights = new Map();
-        this.subscription_socket.addOnMessageListener((msg) => this.onMessage(msg));
-        // this.subscription_socket.sendSubscriptions('light_visualization'); // TODO: we need addSubscription
+        subscription_socket.addOnMessageListener((msg) => this.onMessage(msg));
+        subscription_socket.addSubscriptions(['light_visulisation']);
     }
 
     bindLight(name, data, CSS3DObject) {
@@ -11,13 +11,16 @@ export class LightManager {
     }
 
     onMessage(msg) {
-        console.log(msg);
+        if (msg.func == 'lightState') {
+            this.render(msg.data);
+        }
     }
 
     render(state) {
-        for (let [name, light_state] of state) {
-            this.lights.get(name).render(light_state);
-        }
+        console.log(state);
+        //for (let [name, light_state] of state) {
+        //    this.lights.get(name).render(light_state);
+        //}
     }
 }
 
