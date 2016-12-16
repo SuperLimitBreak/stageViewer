@@ -1,8 +1,10 @@
 
 function _RGBElementBackgroundColor(element, state) {
-    const get_rgba_val = (key) => Math.round(state.get(key, 0) * 255);
-    const [red, green, blue] = [get_rgba_val('red'), get_rgba_val('green'), get_rgba_val('blue')];
-    element.style.background = `linear-gradient(to top, rgba(${red},${green},${blue},1), rgba(${red},${green},${blue},0))`;
+    let [red, green, blue] = [state.get('red', 0), state.get('green', 0), state.get('blue', 0)];
+    const max = Math.max(red, green, blue);
+    if (!max) {return;}
+    [red, green, blue] = [(red/max)*255, (green/max)*255, (blue/max)*255];
+    element.style.background = `linear-gradient(to top, rgba(${red},${green},${blue},${max}), rgba(${red},${green},${blue},0))`;
 }
 
 class BaseDevice {
@@ -24,8 +26,18 @@ export class RGBLight extends BaseDevice {
 export class RGBStripLight extends BaseDevice {
     constructor(CSS3DObject, data) {
         super(CSS3DObject, data);
+        console.log(data);
+        const width_percent = (1/data.get('size'))*100;
+        for (let i=0 ; i<data.get('size') ; i++) {
+            const div = document.createElement('div');
+            div.style = `display: inline-block; height: 100%; width: ${width_percent}%`;
+            CSS3DObject.element.appendChild(div)
+        }
     }
     render(state) {
+        //for (let [light_state, div] of zip(state, this.CSS3DObject.element.childNodes)) {
+        //  _RGBElementBackgroundColor(div, light_state);
+        //}
     }
 }
 
