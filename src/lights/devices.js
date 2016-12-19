@@ -1,3 +1,5 @@
+import {es6_core} from 'displayTrigger';
+
 
 function _RGBElementBackgroundColor(element, state) {
     let [red, green, blue] = [state.get('red', 0), state.get('green', 0), state.get('blue', 0)];
@@ -35,9 +37,9 @@ export class RGBStripLight extends BaseDevice {
         }
     }
     render(state) {
-        //for (let [light_state, div] of zip(state, this.CSS3DObject.element.childNodes)) {
-        //  _RGBElementBackgroundColor(div, light_state);
-        //}
+        for (let [light_state, div] of es6_core.zip(state, this.CSS3DObject.element.childNodes)) {
+          _RGBElementBackgroundColor(div, light_state);
+        }
     }
 }
 
