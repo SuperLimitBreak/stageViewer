@@ -29,17 +29,51 @@ export const DEFAULT_STAGE_CONFIG = Immutable.fromJS({
         },
     },
     lights: {
-        light1: {
-            device: 'RGBLight',
-            style: 'width: 100px; height: 300px;',
-            position: {x: -500, y: 150 , z: -200},
-            rotation: {x: 45},
-        },
+        // Lead
         floorLarge1: {
             device: 'RGBStripLight', size: 8,
             style: 'width: 300px; height: 500px;',
             position: {x: 500, y: 200 , z: -200},
             rotation: {x: -45},
+        },
+        light7: {
+            device: 'RGBLight',
+            style: 'width: 100px; height: 300px;',
+            position: {x: 500, y: 500 , z: -200},
+            rotation: {x: 225},
+        },
+        // Rhythm
+        light2: {
+            device: 'RGBLight',
+            style: 'width: 100px; height: 300px;',
+            position: {x: -500, y: 500 , z: -200},
+            rotation: {x: 225},
+        },
+        floorLarge2: {
+            device: 'RGBStripLight', size: 8,
+            style: 'width: 300px; height: 500px;',
+            position: {x: -500, y: 200 , z: -200},
+            rotation: {x: -45},
+        },
+        // Drum
+        light1: {
+            device: 'RGBLight',
+            style: 'width: 100px; height: 300px;',
+            position: {x: 300, y: 500, z: -400},
+            rotation: {x: -45},
+        },
+        floor4: {
+            device: 'RGBStripLight', size: 3,
+            style: 'width: 200px; height: 500px;',
+            position: {x: 400, y: 200 , z: -400},
+            rotation: {y: 90, z:0},
         }
+
+        // Bass
+
+        // Piano
+
+        // Vocal
+
     }
 });

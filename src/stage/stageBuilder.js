@@ -37,6 +37,7 @@ export function initStage(three, screenMessageRouter, lightManager, config) {
     // lights
     for (let [light_name, light_data] of config.get('lights', EMPTY_MAP)) {
         const CSS3DObject = createCSS3DObject(light_data);
+        CSS3DObject.element.id = light_name;  // Could do this for screens and stage parts too ...
         three.scene.add(CSS3DObject);
         lightManager.bindLight(light_name, light_data, CSS3DObject);
     }
