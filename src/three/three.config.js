@@ -11,7 +11,7 @@ export default {
         aspect: 1,
         posX: 0,
         posY: 30,
-        posZ: 40,
+        posZ: 1000,
     },
     controls: {
         enableDamping: true,

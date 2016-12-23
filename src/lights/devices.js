@@ -22,13 +22,13 @@ export class RGBLight extends BaseDevice {
     }
     render(state) {
         _RGBElementBackgroundColor(this.CSS3DObject.element, state);
+        this.CSS3DObject.rotation.x += 0.1;  // TEMP
     }
 }
 
 export class RGBStripLight extends BaseDevice {
     constructor(CSS3DObject, data) {
         super(CSS3DObject, data);
-        console.log(data);
         const width_percent = (1/data.get('size'))*100;
         for (let i=0 ; i<data.get('size') ; i++) {
             const div = document.createElement('div');
