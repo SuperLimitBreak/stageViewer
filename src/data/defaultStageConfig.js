@@ -3,29 +3,52 @@ const Immutable = require('immutable');
 export const DEFAULT_STAGE_CONFIG = Immutable.fromJS({
     screens: {
         front: {
-            display: {width: 720, height: 512, style: 'opacity: 0.5;'},
+            display: {
+                width: 300,
+                height: 200,
+                style: 'opacity: 0.5;',
+                pivot: 'top',
+            },
+            position: {x:0, y: 200, z: 100},
             subscriptions: ['main', 'front'],
-            position: {x:0, y: 256, z: 0}
         },
         rear: {
-            display: {width: 1280, height: 920},
+            display: {
+                width: 350,
+                height: 240,
+                pivot: 'top',
+            },
+            position: {x:0, y: 250, z: -100},
             subscriptions: ['rear'],
-            position: {x:0, y: 460, z: -400}
         }
     },
     stage: {
         'stage_floor': {
-            display: {width: 2000, height: 500, style: 'background-color: #333; border: 1px solid #777;'},
+            display: {
+                width: 600,
+                height: 300,
+                style: 'background-color: #333; border: 1px solid #777;'
+            },
             rotation: {x: -90},
-            position: {x: 0, y: 0, z: -250},
+            position: {x: 0, y: 0, z: 0},
         },
         'stage_front': {
-            display: {width: 2000, height: 100, style: 'background-color: #333; border: 1px solid #777;'},
-            position: {x: 0, y: -50, z: 0},
+            display: {
+                width: 600,
+                height: 50,
+                style: 'background-color: #333; border: 1px solid #777;',
+                pivot: 'top',
+            },
+            position: {x: 0, y: 0, z: 150},
         },
         'stage_back': {
-            display: {width: 2000, height: 1100, style: 'background-color: #333; border: 1px solid #777;'},
-            position: {x: 0, y: 550, z: -500},
+            display: {
+                width: 600,
+                height: 300,
+                style: 'background-color: #333; border: 1px solid #777;',
+                pivot: 'top',
+            },
+            position: {x: 0, y: 300, z: -150},
         },
     },
     lights: {
@@ -62,21 +85,21 @@ export const DEFAULT_STAGE_CONFIG = Immutable.fromJS({
             device: 'RGBLight',
             display: {
                 pivot: 'top',
-                width: 100, height: 300,
+                width: 50, height: 200,
                 style: 'border: 1px solid red;',
             },
-            position: {x: 300, y: 500, z: -400},
-            rotation: {x: -45},
+            position: {x: -150, y: 240, z: 150},
+            rotation: {x: 45},
         },
         floor4: {
             device: 'RGBStripLight', size: 3,
             display: {
                 pivot: 'top',
-                width: 200, height: 500,
+                width: 60, height: 200,
                 style: 'border: 1px solid green;',
             },
-            position: {x: 400, y: 200 , z: -400},
-            rotation: {y: 90, z:0},
+            position: {x: 50, y: 0 , z: -50},
+            rotation: {x: 0, y: -45, z: 180},
         }
 
         // Bass

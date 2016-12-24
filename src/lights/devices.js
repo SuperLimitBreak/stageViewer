@@ -6,7 +6,7 @@ function _RGBElementBackgroundColor(element, state) {
     const max = Math.max(red, green, blue);
     if (!max) {return;}
     [red, green, blue] = [(red/max)*255, (green/max)*255, (blue/max)*255];
-    element.style.background = `linear-gradient(to top, rgba(${red},${green},${blue},${max}), rgba(${red},${green},${blue},0))`;
+    element.style.background = `linear-gradient(to bottom, rgba(${red},${green},${blue},${max/3}), rgba(${red},${green},${blue},0))`;
 }
 
 class BaseDevice {
@@ -22,7 +22,6 @@ export class RGBLight extends BaseDevice {
     }
     render(state) {
         _RGBElementBackgroundColor(this.CSS3DObject.element, state);
-        this.CSS3DObject.rotation.x += 0.1;  // TEMP
     }
 }
 
