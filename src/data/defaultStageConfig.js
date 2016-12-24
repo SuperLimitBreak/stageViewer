@@ -52,34 +52,50 @@ export const DEFAULT_STAGE_CONFIG = Immutable.fromJS({
         },
     },
     lights: {
-        /*
         // Lead
-        floorLarge1: {
-            device: 'RGBStripLight', size: 8,
-            style: 'width: 300px; height: 500px;',
-            position: {x: 500, y: 200 , z: -200},
-            rotation: {x: -45},
-        },
         light7: {
             device: 'RGBLight',
-            style: 'width: 100px; height: 300px;',
-            position: {x: 500, y: 500 , z: -200},
-            rotation: {x: 225},
+            display: {
+                pivot: 'top',
+                width: 50, height: 200,
+                style: 'border: 1px solid red;',
+            },
+            position: {x: 200, y: 240, z: 100},
+            rotation: {x: 45},
+        },
+        floorLarge1: {
+            device: 'RGBStripLight',
+            size: 8,
+            display: {
+                pivot: 'top',
+                width: 100, height: 200,
+                style: 'border: 1px solid blue;',
+            },
+            position: {x: 200, y: 0, z: 100},
+            rotation: {x: 135},
         },
         // Rhythm
         light2: {
             device: 'RGBLight',
-            style: 'width: 100px; height: 300px;',
-            position: {x: -500, y: 500 , z: -200},
-            rotation: {x: 225},
+            display: {
+                pivot: 'top',
+                width: 50, height: 200,
+                style: 'border: 1px solid red;',
+            },
+            position: {x: -200, y: 240, z: 100},
+            rotation: {x: 45},
         },
         floorLarge2: {
-            device: 'RGBStripLight', size: 8,
-            style: 'width: 300px; height: 500px;',
-            position: {x: -500, y: 200 , z: -200},
-            rotation: {x: -45},
+            device: 'RGBStripLight',
+            size: 8,
+            display: {
+                pivot: 'top',
+                width: 100, height: 200,
+                style: 'border: 1px solid blue;',
+            },
+            position: {x: -200, y: 0, z: 100},
+            rotation: {x: 135},
         },
-        */
         // Drum
         light1: {
             device: 'RGBLight',
@@ -88,7 +104,7 @@ export const DEFAULT_STAGE_CONFIG = Immutable.fromJS({
                 width: 50, height: 200,
                 style: 'border: 1px solid red;',
             },
-            position: {x: -150, y: 240, z: 150},
+            position: {x: 100, y: 200, z: -50},
             rotation: {x: 45},
         },
         floor4: {
