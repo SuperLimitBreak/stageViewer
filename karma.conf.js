@@ -1,4 +1,11 @@
 'use strict';
-const karmaConf = require('../displayTrigger/display/karma.conf');
 
-module.exports = karmaConf;
+// Set node environment to testing
+process.env.NODE_ENV = 'test';
+
+const {buildKarmaCfg} = require('../displayTrigger/display/karma.conf.base.js');
+
+module.exports = buildKarmaCfg(
+    require('./webpack.config.js'),
+    {}
+);
