@@ -12,13 +12,10 @@ node_modules:
 	npm install
 
 node_modules/displayTrigger:
-	npm link PATH_DISPLAY_TRIGGER
-
-webpack.config.js:
-	ln PATH_DISPLAY_TRIGGER/$@ $@
+	npm link $PATH_DISPLAY_TRIGGER
 
 .PHONY: install
-install: node_modules node_modules/displayTrigger webpack.config.js
+install: node_modules node_modules/displayTrigger
 
 run: install
 	npm run start
@@ -32,4 +29,3 @@ clean:
 	rm -rf node_modules/
 	rm -rf static/
 	rm -rf *.log
-	rm -rf webpack.config.js

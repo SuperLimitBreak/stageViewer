@@ -1,7 +1,7 @@
 import {es6_core} from 'displayTrigger';
 
 
-function _RGBElementBackgroundColor(element, state) {
+export function _RGBElementBackgroundColor(element, state) {
     let [red, green, blue] = [state.get('red', 0), state.get('green', 0), state.get('blue', 0)];
     const max = Math.max(red, green, blue);
     if (!max) {return;}
