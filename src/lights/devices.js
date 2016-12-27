@@ -1,12 +1,14 @@
 import {es6_core} from 'displayTrigger';
 
 
-export function _RGBElementBackgroundColor(element, state) {
+export function _getRGBElementBackground(state) {
     let [red, green, blue] = [state.get('red', 0), state.get('green', 0), state.get('blue', 0)];
     const max = Math.max(red, green, blue);
-    if (!max) {return;}
+    if (!max) {
+        return '';
+    }
     [red, green, blue] = [(red/max)*255, (green/max)*255, (blue/max)*255];
-    element.style.background = `linear-gradient(to bottom, rgba(${red},${green},${blue},${max/3}), rgba(${red},${green},${blue},0))`;
+    return `linear-gradient(to bottom, rgba(${red},${green},${blue},${max/3}), rgba(${red},${green},${blue},0))`;
 }
 
 class BaseDevice {
@@ -21,7 +23,7 @@ export class RGBLight extends BaseDevice {
         super(CSS3DObject, data);
     }
     render(state) {
-        _RGBElementBackgroundColor(this.CSS3DObject.element, state);
+        this.CSS3DObject.element.style.background = _getRGBElementBackground(state);
     }
 }
 
@@ -36,8 +38,8 @@ export class RGBStripLight extends BaseDevice {
         }
     }
     render(state) {
-        for (let [light_state, div] of es6_core.zip(state, this.CSS3DObject.element.childNodes)) {
-          _RGBElementBackgroundColor(div, light_state);
+        for (let [light_state, element] of es6_core.zip(state, this.CSS3DObject.element.childNodes)) {
+            element.style.background = _getRGBElementBackground(light_state);
         }
     }
 }
