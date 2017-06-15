@@ -3,12 +3,10 @@ import {es6_core} from 'displayTrigger';
 
 export function _getRGBElementBackground(state) {
     let [red, green, blue] = [state.get('red', 0), state.get('green', 0), state.get('blue', 0)];
-    const max = Math.max(red, green, blue);
-    if (!max) {
-        return '';
-    }
-    [red, green, blue] = [(red/max)*255, (green/max)*255, (blue/max)*255];
-    return `linear-gradient(to bottom, rgba(${red},${green},${blue},${max/3}), rgba(${red},${green},${blue},0))`;
+    //const max = Math.max(red, green, blue);
+    //if (!max) {return '';}
+    [red, green, blue] = [(red)*255, (green)*255, (blue)*255];
+    return `linear-gradient(to bottom, rgba(${red},${green},${blue},${0.5}), rgba(${red},${green},${blue},0))`;
 }
 
 class BaseDevice {
