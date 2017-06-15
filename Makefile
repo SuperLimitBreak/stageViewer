@@ -10,12 +10,17 @@ help:
 
 node_modules:
 	npm install
-
 node_modules/displayTrigger:
 	npm link $(PATH_DISPLAY_TRIGGER)
+.eslintrc:
+	ln -s $(PATH_DISPLAY_TRIGGER)/$@ $@
+.editorconfig:
+	ln -s $(PATH_DISPLAY_TRIGGER)/$@ $@
+.babelrc:
+	ln -s $(PATH_DISPLAY_TRIGGER)/$@ $@
 
 .PHONY: install
-install: node_modules node_modules/displayTrigger
+install: node_modules node_modules/displayTrigger .eslintrc .editorconfig .babelrc
 
 run: install
 	npm run start
@@ -29,3 +34,6 @@ clean:
 	rm -rf node_modules/
 	rm -rf static/
 	rm -rf *.log
+	rm .eslintrc
+	rm .editorconfig
+	rm .babelrc

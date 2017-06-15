@@ -11,3 +11,7 @@
 *.7z
 *.rar
 *.gz
+
+.eslintrc
+.editorconfig
+.babelrc
