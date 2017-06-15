@@ -12,7 +12,7 @@ node_modules:
 	npm install
 
 node_modules/displayTrigger:
-	npm link $PATH_DISPLAY_TRIGGER
+	npm link $(PATH_DISPLAY_TRIGGER)
 
 .PHONY: install
 install: node_modules node_modules/displayTrigger

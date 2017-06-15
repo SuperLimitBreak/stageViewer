@@ -6,3 +6,8 @@
 /karma-*
 *.log
 */.DS_Store
+
+*.zip
+*.7z
+*.rar
+*.gz

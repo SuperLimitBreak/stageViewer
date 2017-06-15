@@ -42,7 +42,7 @@
     "sass-loader": "latest",
     "style-loader": "latest",
     "three": "latest",
-    "tween.js": "latest",
+    "tweenjs": "latest",
     "webpack": "^2.1.0-beta.27",
     "webpack-dev-server": "^2.1.0-beta.10"
   },
