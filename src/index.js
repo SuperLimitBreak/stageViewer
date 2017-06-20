@@ -12,18 +12,12 @@ import {initStage} from './stage/stageBuilder';
 import {LightManager} from './lights/LightManager';
 
 
-const body = document.getElementsByTagName('body').item(0);
+//const body = document.getElementsByTagName('body').item(0);
 
-const container = document.createElement('div');
-container.style.position = 'absolute';
-container.style.height = '100%';
-container.style.width = '100%';
-body.appendChild(container);
-
-const three = new ThreeMain(container);
+const three = new ThreeMain(document.getElementById('3d_scene'));
 const subscription_socket = new SubscriptionSocketReconnect();
 const screenMessageRouter = new ScreenMessageRouter(subscription_socket);
-const lightManager = new LightManager(subscription_socket);
+const lightManager = new LightManager(subscription_socket, document.getElementById('timeline_img'));
 
 function _initStage(config) {
     return initStage(three, screenMessageRouter, lightManager, config);
