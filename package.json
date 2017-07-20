@@ -5,7 +5,8 @@
   "main": "static/export.bundle.js",
   "dependencies": {
     "core-js": "latest",
-    "normalize.css": "latest"
+    "normalize.css": "latest",
+    "react": "latest"
   },
   "devDependencies": {
     "babel-core": "latest",
@@ -13,11 +14,13 @@
     "babel-loader": "latest",
     "babel-polyfill": "latest",
     "babel-preset-modern-browsers": "latest",
+    "babel-preset-react": "latest",
     "babelify": "latest",
     "copyfiles": "latest",
     "css-loader": "latest",
     "eslint": "latest",
     "eslint-loader": "latest",
+    "eslint-plugin-react": "latest",
     "file-loader": "latest",
     "glob": "latest",
     "immutable": "latest",
@@ -38,6 +41,7 @@
     "open": "latest",
     "pubsub-js": "latest",
     "pycollections": "latest",
+    "react-addons-test-utils": "latest",
     "rimraf": "latest",
     "sass-loader": "latest",
     "style-loader": "latest",

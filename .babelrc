@@ -1,0 +1,6 @@
+{
+  "presets": [
+        "modern-browsers",
+        "react"
+  ]
+}
