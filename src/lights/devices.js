@@ -32,7 +32,7 @@ export class RGBStripLight extends BaseDevice {
         for (let i=0 ; i<data.get('size') ; i++) {
             const div = document.createElement('div');
             div.style = `display: inline-block; height: 100%; width: ${width_percent}%`;
-            CSS3DObject.element.appendChild(div)
+            CSS3DObject.element.appendChild(div);
         }
     }
     render(state) {

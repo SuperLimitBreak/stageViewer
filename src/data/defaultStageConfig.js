@@ -20,14 +20,14 @@ export const DEFAULT_STAGE_CONFIG = Immutable.fromJS({
             },
             position: {x:0, y: 250, z: -100},
             subscriptions: ['rear'],
-        }
+        },
     },
     stage: {
         'stage_floor': {
             display: {
                 width: 600,
                 height: 300,
-                style: 'background-color: #333; border: 1px solid #777;'
+                style: 'background-color: #333; border: 1px solid #777;',
             },
             rotation: {x: -90},
             position: {x: 0, y: 0, z: 0},
@@ -116,7 +116,7 @@ export const DEFAULT_STAGE_CONFIG = Immutable.fromJS({
             },
             position: {x: 50, y: 0 , z: -50},
             rotation: {x: 0, y: -45, z: 180},
-        }
+        },
 
         // Bass
 
@@ -124,5 +124,5 @@ export const DEFAULT_STAGE_CONFIG = Immutable.fromJS({
 
         // Vocal
 
-    }
+    },
 });

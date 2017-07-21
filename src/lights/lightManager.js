@@ -13,7 +13,7 @@ export class LightManager {
         this.timeline_img = timeline_element.getElementsByTagName('img').item(0);
         // CSS always enforces correct aspect ratio scaling unless absolute values are specified.
         // We want to scale 'height' but preserve naturalWidth. We have to enforce this width property manually with js
-        this.timeline_img.onload = () => {this.timeline_img.style.width = `${this.timeline_img.naturalWidth}px`};
+        this.timeline_img.onload = () => {this.timeline_img.style.width = `${this.timeline_img.naturalWidth}px`;};
 
         this.timeline_name = '';
     }
