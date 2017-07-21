@@ -41,6 +41,7 @@
     "open": "latest",
     "pubsub-js": "latest",
     "pycollections": "latest",
+    "react-dom": "latest",
     "react-addons-test-utils": "latest",
     "rimraf": "latest",
     "sass-loader": "latest",

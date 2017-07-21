@@ -12,6 +12,16 @@ import {initStage} from './stage/stageBuilder';
 import {LightManager} from './lights/LightManager';
 
 
+import React from 'react';
+import {render} from 'react-dom';
+import {Timeline} from './timeline/timeline';
+
+render(
+    <Timeline></Timeline>,
+    document.getElementById('timeline')
+);
+
+
 //const body = document.getElementsByTagName('body').item(0);
 
 const three = new ThreeMain(document.getElementById('three_scene'));

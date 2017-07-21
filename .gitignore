@@ -13,3 +13,5 @@
 *.gz
 
 .editorconfig
+
+package-lock.json
