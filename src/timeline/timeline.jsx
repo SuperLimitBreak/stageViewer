@@ -63,25 +63,25 @@ export class Timeline extends Component {
 
     render() {
         return (
-            <div className='timeline {this.props.className}'>
+            <div className={`timeline ${this.props.className}`}>
                 <img
-                    src={`http://{this.props.host}/{this.props.name}.png?{this.state.cacheBust}`}
+                    src={`http://${this.props.host}/${this.props.name}.png?${this.state.cacheBust}`}
                     style={{
-                        width: `{this.state.imageWidth * this.props.zoom}px`,
+                        width: `${this.state.imageWidth * this.props.zoom}px`,
                     }}
                     onLoad={this._boundImageObjectNaturalWidth}
                 />
                 <div
                     className='cursor'
                     style={{
-                        left: `{_px(this.state.cursorPosition)}px`,
+                        left: `${this._px(this.state.cursorPosition)}px`,
                     }}
                 ></div>
                 <div
                     className='selection'
                     style={{
-                        left: `{_px(this.state.selectionStart)}px`,
-                        width: `{_px(this.state.selectionEnd - this.state.selectionStart)}px`,
+                        left: `${this._px(this.state.selectionStart)}px`,
+                        width: `${this._px(this.state.selectionEnd - this.state.selectionStart)}px`,
                     }}
                 ></div>
             </div>
