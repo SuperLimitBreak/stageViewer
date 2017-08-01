@@ -1,0 +1,23 @@
+.timeline {
+}
+
+#timeline img {
+    height: 100%;
+}
+
+.cursor {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    border-left: 1px solid red;
+}
+
+.selection {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    background-color: rgba(64,64,127,127);
+}

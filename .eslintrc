@@ -22,7 +22,6 @@
     "array-callback-return": 1,
     "no-else-return": 1,
     "consistent-return": 1,
-    "padded-blocks": [1, "never"],
     "indent": [1, 4, {"SwitchCase": 1}],
     "semi": 1,
     "comma-dangle": [1, "always-multiline"],
