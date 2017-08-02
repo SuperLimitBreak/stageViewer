@@ -29,6 +29,7 @@ export class Timeline extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            name: '',
             cursorPosition: 0,
             cacheBust: '',
             imageWidth: 0,
@@ -38,12 +39,15 @@ export class Timeline extends Component {
         this._px = this._px.bind(this);
         this.setName = this.setName.bind(this);
         this.setCursorPosition = this.setCursorPosition.bind(this);
+        this._boundImageObjectNaturalWidth = this._boundImageObjectNaturalWidth.bind(this);
     }
 
     setName(name) {
-        if (this.props.name != name) {
-            this.setState({cacheBust: new Date().getTime()});
-            this.setProp({name: name});
+        if (this.state.name != name) {
+            this.setState({
+                name: name,
+                cacheBust: new Date().getTime(),
+            });
         }
     }
 
@@ -58,30 +62,30 @@ export class Timeline extends Component {
     _boundImageObjectNaturalWidth(thisComponentInstance) {
         // CSS always enforces correct aspect ratio scaling unless absolute values are specified.
         // We want to scale 'height' but preserve naturalWidth. We have to enforce this width property manually with js
-        thisComponentInstance.setState({imageWidth: this.naturalWidth});
+        this.setState({imageWidth: thisComponentInstance.target.naturalWidth});
     }
 
     render() {
         return (
-            <div className={`timeline ${this.props.className}`}>
+            <div className={`timeline`}>
                 <img
-                    src={`http://${this.props.host}/${this.props.name}.png?${this.state.cacheBust}`}
+                    src={`http://${this.props.host}/${this.state.name}?${this.state.cacheBust}`}
                     style={{
                         width: `${this.state.imageWidth * this.props.zoom}px`,
                     }}
                     onLoad={this._boundImageObjectNaturalWidth}
                 />
                 <div
-                    className='cursor'
-                    style={{
-                        left: `${this._px(this.state.cursorPosition)}px`,
-                    }}
-                ></div>
-                <div
                     className='selection'
                     style={{
                         left: `${this._px(this.state.selectionStart)}px`,
                         width: `${this._px(this.state.selectionEnd - this.state.selectionStart)}px`,
+                    }}
+                ></div>
+                <div
+                    className='cursor'
+                    style={{
+                        left: `${this._px(this.state.cursorPosition)}px`,
                     }}
                 ></div>
             </div>
