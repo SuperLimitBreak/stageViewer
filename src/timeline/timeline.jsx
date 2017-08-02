@@ -12,7 +12,7 @@ export class TimelineManager {
 
     onMessage(msg) {
         if (msg.func == 'lightState') {
-            this.timelineInstance.setCursorPosition(msg.data.frame);
+            this.timelineInstance.setCursorPosition(msg.data.timecode);
         }
         if (msg.func == 'scan_update_event') {
             this.timelineInstance.setName('');
@@ -51,12 +51,12 @@ export class Timeline extends Component {
         }
     }
 
-    setCursorPosition(position) {
-        this.setState({cursorPosition: position});
+    setCursorPosition(timecode) {
+        this.setState({cursorPosition: timecode});
     }
 
-    _px(value) {
-        return value * this.props.pixelsPerSecond * this.props.zoom;
+    _px(timecode) {
+        return timecode * this.props.pixelsPerSecond * this.props.zoom;
     }
 
     _boundImageObjectNaturalWidth(thisComponentInstance) {
