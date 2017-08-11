@@ -33,14 +33,6 @@ export class TimelineManager {
 export class Timeline extends Component {
 
     constructor(props) {
-        Object.assign(props, {
-            name:'',
-            host:'localhost',
-            pixelsPerSecond:8,
-            zoom:1,
-            selectionThresholdPx:5,
-        }, props);
-        console.log(props);
         super(props);
         this.state = {
             name: '',
@@ -50,14 +42,16 @@ export class Timeline extends Component {
             selectionStart: 0,
             selectionEnd: 0,
             selecting: null,
+            zoom: 1,
         };
         this._timecode_to_px = this._timecode_to_px.bind(this);
         this._px_to_timecode = this._px_to_timecode.bind(this);
         this._mouseUp = this._mouseUp.bind(this);
         this._mouseDown = this._mouseDown.bind(this);
-        this._selectionStart = this._selectionStart.bind(this);
+        this._mouseWheel = this._mouseWheel.bind(this);
         this._selectionUpdate = this._selectionUpdate.bind(this);
         this._selectionEnd = this._selectionEnd.bind(this);
+        this.zoom = this.zoom.bind(this);
         this.seek = this.seek.bind(this);
         this.hasSelection = this.hasSelection.bind(this);
         this.clearSelection = this.clearSelection.bind(this);
@@ -83,6 +77,10 @@ export class Timeline extends Component {
         console.warn('seek must be overridden');
     }
 
+    zoom(zoom) {
+        this.setState({zoom: zoom});
+    }
+
     hasSelection() {
         return this.state.selecting!=null || this.state.selectionStart > 0 || this.state.selectionEnd > 0;
     }
@@ -90,32 +88,29 @@ export class Timeline extends Component {
         this.setState({selectionStart: 0, selectionEnd: 0, selecting: null});
     }
 
+    _mouseWheel(event) {
+        this.zoom(this.state.zoom + (this.state.zoom * event.deltaY / this.props.zoomFactor));
+    }
     _mouseDown(event) {
         event.preventDefault();
-        console.log('_mouseDown', event);
         const pos = this._px_to_timecode(event.clientX);
         function bindMarkerDrag(_this, markerName) {
             if (
                 Math.abs(event.clientX - _this._timecode_to_px(_this.state[`selection${markerName}`])) < _this.props.selectionThresholdPx
             ) {
-                console.log(`dragging ${markerName}`);
                 _this.setState({selecting: markerName});
                 _this._selectionUpdate(event);
                 return true;
             }
         }
         if (this.hasSelection()) {
-            console.log('hasSelection');
             if (bindMarkerDrag(this, 'Start')) {return;}
             if (bindMarkerDrag(this, 'End')) {return;}
         }
-        console.log('startingSelection');
         this.setState({selecting: 'End', selectionStart: pos, selectionEnd: pos});
     }
     _mouseUp(event) {
         event.preventDefault();
-        //const ss = this._timecode_to_px(Math.abs(this.state.selectionStart - this.state.selectionEnd));
-        //console.log(`_mouseUp selection_size:${ss}`, event);
         if (
             this.state.selecting==null ||
             (
@@ -125,7 +120,6 @@ export class Timeline extends Component {
                 ) < this.props.selectionThresholdPx
             )
          ) {
-            console.log('seek');
             this.clearSelection();
             this.seek(this._px_to_timecode(event.clientX));
         }
@@ -133,11 +127,8 @@ export class Timeline extends Component {
             this._selectionEnd(event);
         }
     }
-    _selectionStart(event) {
-    }
     _selectionUpdate(event) {
         event.preventDefault();
-        //console.log(`_selectionUpdate ${this._px_to_timecode(event.clientX)}`);
         if (this.state.selecting) {
             const pos = this._px_to_timecode(event.clientX);
             const state = {};
@@ -150,7 +141,6 @@ export class Timeline extends Component {
                 state[`selection${this.state.selecting}`] = this.state[`selection${invertStartEnd(this.state.selecting)}`];
                 state[`selection${invertStartEnd(this.state.selecting)}`] = pos;
             } else {
-                console.log(`_selectionUpdate selecting start:${this.state.selectionStart} end:${this.state.selectionEnd}`);
                 state[`selection${this.state.selecting}`] = pos;
             }
             this.setState(state);
@@ -158,19 +148,17 @@ export class Timeline extends Component {
     }
     _selectionEnd(event) {
         event.preventDefault();
-        console.log('_selectionEnd', event);
         if (this.state.selecting) {
             this._selectionUpdate(event);
-            console.log('_selectionEnd null');
             this.setState({selecting: null});
         }
     }
 
     _px_to_timecode(px) {
-        return px / (this.props.pixelsPerSecond * this.props.zoom);
+        return px / (this.props.pixelsPerSecond * this.state.zoom);
     }
     _timecode_to_px(timecode) {
-        return timecode * (this.props.pixelsPerSecond * this.props.zoom);
+        return timecode * (this.props.pixelsPerSecond * this.state.zoom);
     }
 
     _boundImageObjectNaturalWidth(thisComponentInstance) {
@@ -187,12 +175,13 @@ export class Timeline extends Component {
                 onMouseLeave={this._selectionEnd}
                 onMouseMove={this._selectionUpdate}
                 onMouseUp={this._mouseUp}
+                onWheel={this._mouseWheel}
                 draggable='false'
             >
                 <img
                     src={`http://${this.props.host}/${this.state.name}?${this.state.cacheBust}`}
                     style={{
-                        width: `${this.state.imageWidth * this.props.zoom}px`,
+                        width: `${this.state.imageWidth * this.state.zoom}px`,
                     }}
                     onLoad={this._boundImageObjectNaturalWidth}
                     draggable='false'
@@ -218,3 +207,9 @@ export class Timeline extends Component {
         //<button onClick={this.setCursorPosition}>Set position</button>
     }
 }
+Timeline.defaultProps = {
+    host: 'localhost',
+    pixelsPerSecond: 8,
+    selectionThresholdPx: 5,
+    zoomFactor: 32,
+};

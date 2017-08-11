@@ -24,7 +24,7 @@ const three = new ThreeMain(document.getElementById('three_scene'));
 const subscription_socket = new SubscriptionSocketReconnect();
 
 const timelineInstance = render(
-    <Timeline name={''} host={'localhost:23487'} pixelsPerSecond={8} zoom={1}></Timeline>,
+    <Timeline host={'localhost:23487'} pixelsPerSecond={8}></Timeline>,
     document.getElementById('timeline')
 );
 const timelineManager = new TimelineManager(subscription_socket, timelineInstance);

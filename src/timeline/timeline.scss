@@ -1,5 +1,7 @@
 .timeline {
     height: 100%;
+    overflow-x: scroll;
+    overflow-y: hidden;
 }
 
 .timeline img {
