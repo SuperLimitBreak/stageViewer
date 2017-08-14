@@ -89,7 +89,7 @@ export class Timeline extends Component {
     }
 
     _mouseWheel(event) {
-        this.zoom(this.state.zoom + (this.state.zoom * event.deltaY / this.props.zoomFactor));
+        this.zoom(this.state.zoom + (this.state.zoom * this.props.zoomInvert * event.deltaY / this.props.zoomFactor));
     }
     _mouseDown(event) {
         event.preventDefault();
@@ -179,7 +179,7 @@ export class Timeline extends Component {
                 draggable='false'
             >
                 <img
-                    src={`http://${this.props.host}/${this.state.name}?${this.state.cacheBust}`}
+                    src={`http://${this.props.host}/${this.state.name}?cachebust=${this.state.cacheBust}`}
                     style={{
                         width: `${this.state.imageWidth * this.state.zoom}px`,
                     }}
@@ -212,4 +212,5 @@ Timeline.defaultProps = {
     pixelsPerSecond: 8,
     selectionThresholdPx: 5,
     zoomFactor: 32,
+    zoomInvert: -1,
 };
