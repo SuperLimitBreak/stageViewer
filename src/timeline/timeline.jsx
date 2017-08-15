@@ -54,6 +54,7 @@ export class Timeline extends Component {
         this.zoom = this.zoom.bind(this);
         this.seek = this.seek.bind(this);
         this.hasSelection = this.hasSelection.bind(this);
+        this.inSelection = this.inSelection.bind(this);
         this.clearSelection = this.clearSelection.bind(this);
         this.setName = this.setName.bind(this);
         this.setCursorPosition = this.setCursorPosition.bind(this);
@@ -81,6 +82,9 @@ export class Timeline extends Component {
         this.setState({zoom: zoom});
     }
 
+    inSelection(timecode) {
+        return timecode > this.state.selectionStart && timecode < this.state.selectionEnd;
+    }
     hasSelection() {
         return this.state.selecting!=null || this.state.selectionStart > 0 || this.state.selectionEnd > 0;
     }
@@ -107,10 +111,14 @@ export class Timeline extends Component {
             if (bindMarkerDrag(this, 'Start')) {return;}
             if (bindMarkerDrag(this, 'End')) {return;}
         }
+        if (this.hasSelection() && this.inSelection(pos)) {
+            return;
+        }
         this.setState({selecting: 'End', selectionStart: pos, selectionEnd: pos});
     }
     _mouseUp(event) {
         event.preventDefault();
+        const pos = this._px_to_timecode(event.clientX);
         if (
             this.state.selecting==null ||
             (
@@ -120,8 +128,10 @@ export class Timeline extends Component {
                 ) < this.props.selectionThresholdPx
             )
          ) {
-            this.clearSelection();
-            this.seek(this._px_to_timecode(event.clientX));
+            if (this.hasSelection() && !this.inSelection(pos)) {
+                this.clearSelection();
+            }
+            this.seek(pos);
         }
         else {
             this._selectionEnd(event);
@@ -179,7 +189,7 @@ export class Timeline extends Component {
                 draggable='false'
             >
                 <img
-                    src={`http://${this.props.host}/${this.state.name}?cachebust=${this.state.cacheBust}`}
+                    src={`http://${this.props.host}/${this.state.name}?cachebustt=${this.state.cacheBust}`}
                     style={{
                         width: `${this.state.imageWidth * this.state.zoom}px`,
                     }}
