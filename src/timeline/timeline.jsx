@@ -14,21 +14,25 @@ export class TimelineManager {
 
     onMessage(msg) {
         if (msg.func == 'lightState') {
-            this.timelineInstance.setCursorPosition(msg.timecode);
+            this.timelineInstance.setState({
+                cursorPosition: msg.timecode,
+                name: msg.scene,
+                cachebust: '',
+            });
             if (
                 this.timelineInstance.hasSelection() &&
-                !this.timelineInstance.inSelection(this.timelineInstance.getCursorPosition())
+                !this.timelineInstance.inSelection(this.timelineInstance.state.cursorPosition)
             ) {
                 this.timelineInstance.seek(this.timelineInstance.state.selectionStart);
             }
         }
         if (msg.func == 'scan_update_event') {
-            const scene = this.timelineInstance.state.name;
-            this.timelineInstance.setName('');
-            this.timelineInstance.setName(scene);
+            //const scene = this.timelineInstance.state.name;
+            //this.timelineInstance.setName('');
+            //this.timelineInstance.setName(scene);
         }
         if (msg.func == 'LightTiming.start') {
-            this.timelineInstance.setName(msg.scene);
+            //this.timelineInstance.setName(msg.scene);
         }
     }
 
@@ -44,7 +48,7 @@ export class Timeline extends Component {
         this.state = {
             name: '',
             cursorPosition: 0,
-            cacheBust: '',
+            cachebust: '',
             imageWidth: 0,
             selectionStart: 0,
             selectionEnd: 0,
@@ -63,26 +67,7 @@ export class Timeline extends Component {
         this.hasSelection = this.hasSelection.bind(this);
         this.inSelection = this.inSelection.bind(this);
         this.clearSelection = this.clearSelection.bind(this);
-        this.setName = this.setName.bind(this);
-        this.setCursorPosition = this.setCursorPosition.bind(this);
-        this.getCursorPosition = this.getCursorPosition.bind(this);
         this._boundImageObjectNaturalWidth = this._boundImageObjectNaturalWidth.bind(this);
-    }
-
-    setName(name) {
-        if (this.state.name != name) {
-            this.setState({
-                name: name,
-                cacheBust: new Date().getTime(),
-            });
-        }
-    }
-
-    getCursorPosition(timecode) {
-        return this.state.cursorPosition;
-    }
-    setCursorPosition(timecode) {
-        this.setState({cursorPosition: timecode});
     }
 
     seek(timecode) {
@@ -200,7 +185,7 @@ export class Timeline extends Component {
                 draggable='false'
             >
                 <img
-                    src={`http://${this.props.host}/${this.state.name}?cachebustt=${this.state.cacheBust}`}
+                    src={`http://${this.props.host}/${this.state.name}?cachebust=${this.state.cachebust}`}
                     style={{
                         width: `${this.state.imageWidth * this.state.zoom}px`,
                     }}
