@@ -16,7 +16,7 @@ export class LightManager {
 
     onMessage(msg) {
         if (msg.func == 'lightState') {
-            this.render(msg.data.state);
+            this.render(msg.state);
         }
     }
 

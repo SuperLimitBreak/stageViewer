@@ -14,11 +14,18 @@ export class TimelineManager {
 
     onMessage(msg) {
         if (msg.func == 'lightState') {
-            this.timelineInstance.setCursorPosition(msg.data.timecode);
+            this.timelineInstance.setCursorPosition(msg.timecode);
+            if (
+                this.timelineInstance.hasSelection() &&
+                !this.timelineInstance.inSelection(this.timelineInstance.getCursorPosition())
+            ) {
+                this.timelineInstance.seek(this.timelineInstance.state.selectionStart);
+            }
         }
         if (msg.func == 'scan_update_event') {
+            const scene = this.timelineInstance.state.name;
             this.timelineInstance.setName('');
-            this.timelineInstance.setName(msg.scene);
+            this.timelineInstance.setName(scene);
         }
         if (msg.func == 'LightTiming.start') {
             this.timelineInstance.setName(msg.scene);
@@ -58,6 +65,7 @@ export class Timeline extends Component {
         this.clearSelection = this.clearSelection.bind(this);
         this.setName = this.setName.bind(this);
         this.setCursorPosition = this.setCursorPosition.bind(this);
+        this.getCursorPosition = this.getCursorPosition.bind(this);
         this._boundImageObjectNaturalWidth = this._boundImageObjectNaturalWidth.bind(this);
     }
 
@@ -70,6 +78,9 @@ export class Timeline extends Component {
         }
     }
 
+    getCursorPosition(timecode) {
+        return this.state.cursorPosition;
+    }
     setCursorPosition(timecode) {
         this.setState({cursorPosition: timecode});
     }
@@ -213,8 +224,6 @@ export class Timeline extends Component {
                 ></div>
             </div>
         );
-        // {this.props.cursorPosition}
-        //<button onClick={this.setCursorPosition}>Set position</button>
     }
 }
 Timeline.defaultProps = {
