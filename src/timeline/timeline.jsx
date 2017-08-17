@@ -16,9 +16,10 @@ export class TimelineManager {
         if (msg.func == 'lightState') {
             this.timelineInstance.setState({
                 cursorPosition: msg.timecode,
-                name: msg.scene,
-                cachebust: '',
+                name: msg.module_name,
+                cachebust: msg.module_hash,
             });
+            // If playing outside selection - send 'seek' to beginning of selection
             if (
                 this.timelineInstance.hasSelection() &&
                 !this.timelineInstance.inSelection(this.timelineInstance.state.cursorPosition)
@@ -27,9 +28,11 @@ export class TimelineManager {
             }
         }
         if (msg.func == 'scan_update_event') {
-            //const scene = this.timelineInstance.state.name;
-            //this.timelineInstance.setName('');
-            //this.timelineInstance.setName(scene);
+            console.log('scan_update_event', msg);
+            this.timelineInstance.setState({
+                name: msg.module_name,
+                cachebust: msg.module_hash,
+            });
         }
         if (msg.func == 'LightTiming.start') {
             //this.timelineInstance.setName(msg.scene);
