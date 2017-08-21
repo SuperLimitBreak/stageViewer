@@ -93,9 +93,14 @@ export class Timeline extends Component {
     }
 
     _mouseWheel(event) {
+        event.preventDefault();
         //console.log(this.rootElement.scrollLeft, this.rootElement.scrollWidth, event.clientX, event.deltaX);
-        this.rootElement.scrollLeft += event.deltaX;
-        this.zoom(this.state.zoom + (this.state.zoom * this.props.zoomInvert * event.deltaY / this.props.zoomFactor));
+        if (event.ctrlKey) {
+            this.zoom(this.state.zoom + (this.state.zoom * this.props.zoomInvert * event.deltaY / this.props.zoomFactor));
+        }
+        else { //if (event.shiftKey) {
+            this.rootElement.scrollLeft += event.deltaX;
+        }
     }
     _mouseDown(event) {
         event.preventDefault();
@@ -167,7 +172,7 @@ export class Timeline extends Component {
     }
 
     _px_to_timecode(px) {
-        return px / (this.props.pixelsPerSecond * this.state.zoom);
+        return (this.rootElement.scrollLeft + px) / (this.props.pixelsPerSecond * this.state.zoom);
     }
     _timecode_to_px(timecode) {
         return (timecode * (this.props.pixelsPerSecond * this.state.zoom)) - this.rootElement.scrollLeft;
