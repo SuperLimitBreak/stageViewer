@@ -58,6 +58,7 @@ export class Timeline extends Component {
             selecting: null,
             zoom: 1,
         };
+        this.rootElement = {scrollLeft: 0};
         this._timecode_to_px = this._timecode_to_px.bind(this);
         this._px_to_timecode = this._px_to_timecode.bind(this);
         this._mouseUp = this._mouseUp.bind(this);
@@ -82,7 +83,7 @@ export class Timeline extends Component {
     }
 
     inSelection(timecode) {
-        return timecode > this.state.selectionStart && timecode < this.state.selectionEnd;
+        return timecode >= this.state.selectionStart && timecode <= this.state.selectionEnd;
     }
     hasSelection() {
         return this.state.selecting!=null || this.state.selectionStart > 0 || this.state.selectionEnd > 0;
@@ -92,6 +93,8 @@ export class Timeline extends Component {
     }
 
     _mouseWheel(event) {
+        //console.log(this.rootElement.scrollLeft, this.rootElement.scrollWidth, event.clientX, event.deltaX);
+        this.rootElement.scrollLeft += event.deltaX;
         this.zoom(this.state.zoom + (this.state.zoom * this.props.zoomInvert * event.deltaY / this.props.zoomFactor));
     }
     _mouseDown(event) {
@@ -167,7 +170,7 @@ export class Timeline extends Component {
         return px / (this.props.pixelsPerSecond * this.state.zoom);
     }
     _timecode_to_px(timecode) {
-        return timecode * (this.props.pixelsPerSecond * this.state.zoom);
+        return (timecode * (this.props.pixelsPerSecond * this.state.zoom)) - this.rootElement.scrollLeft;
     }
 
     _boundImageObjectNaturalWidth(thisComponentInstance) {
@@ -186,6 +189,7 @@ export class Timeline extends Component {
                 onMouseUp={this._mouseUp}
                 onWheel={this._mouseWheel}
                 draggable='false'
+                ref={element => this.rootElement = element}
             >
                 <img
                     src={`http://${this.props.host}/${this.state.name}?cachebust=${this.state.cachebust}`}
@@ -199,7 +203,7 @@ export class Timeline extends Component {
                     className='selection'
                     style={{
                         left: `${this._timecode_to_px(this.state.selectionStart)}px`,
-                        width: `${this._timecode_to_px(this.state.selectionEnd - this.state.selectionStart)}px`,
+                        width: `${this._timecode_to_px(this.state.selectionEnd) - this._timecode_to_px(this.state.selectionStart)}px`
                     }}
                     draggable='false'
                 ></div>
