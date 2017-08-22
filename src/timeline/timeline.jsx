@@ -72,6 +72,7 @@ export class Timeline extends Component {
         this.inSelection = this.inSelection.bind(this);
         this.clearSelection = this.clearSelection.bind(this);
         this._boundImageObjectNaturalWidth = this._boundImageObjectNaturalWidth.bind(this);
+        this._event_to_timecode = this._event_to_timecode.bind(this);
     }
 
     seek(timecode) {
@@ -92,10 +93,14 @@ export class Timeline extends Component {
         this.setState({selectionStart: 0, selectionEnd: 0, selecting: null});
     }
 
+    _event_to_timecode(event) {
+        return this._px_to_timecode(this.rootElement.scrollLeft + event.clientX);
+    }
     _mouseWheel(event) {
         event.preventDefault();
         //console.log(this.rootElement.scrollLeft, this.rootElement.scrollWidth, event.clientX, event.deltaX);
         if (event.ctrlKey) {
+
             this.zoom(this.state.zoom + (this.state.zoom * this.props.zoomInvert * event.deltaY / this.props.zoomFactor));
         }
         else {  //if (event.shiftKey) {
@@ -104,11 +109,11 @@ export class Timeline extends Component {
     }
     _mouseDown(event) {
         event.preventDefault();
-        const pos = this._px_to_timecode(this.rootElement.scrollLeft + event.clientX);
+        const timecode = this._event_to_timecode(event);
         function bindMarkerDrag(_this, markerName) {
             if (
                 _this._timecode_to_px(
-                    Math.abs(pos - _this.state[`selection${markerName}`])
+                    Math.abs(timecode - _this.state[`selection${markerName}`])
                 ) < _this.props.selectionThresholdPx
             ) {
                 _this.setState({selecting: markerName});
@@ -120,14 +125,14 @@ export class Timeline extends Component {
             if (bindMarkerDrag(this, 'Start')) {return;}
             if (bindMarkerDrag(this, 'End')) {return;}
         }
-        if (this.hasSelection() && this.inSelection(pos)) {
+        if (this.hasSelection() && this.inSelection(timecode)) {
             return;
         }
-        this.setState({selecting: 'End', selectionStart: pos, selectionEnd: pos});
+        this.setState({selecting: 'End', selectionStart: timecode, selectionEnd: timecode});
     }
     _mouseUp(event) {
         event.preventDefault();
-        const pos = this._px_to_timecode(this.rootElement.scrollLeft + event.clientX);
+        const timecode = this._event_to_timecode(event);
         if (
             this.state.selecting==null ||
             (
@@ -137,10 +142,10 @@ export class Timeline extends Component {
                 ) < this.props.selectionThresholdPx
             )
          ) {
-            if (this.hasSelection() && !this.inSelection(pos)) {
+            if (this.hasSelection() && !this.inSelection(timecode)) {
                 this.clearSelection();
             }
-            this.seek(pos);
+            this.seek(timecode);
         }
         else {
             this._selectionEnd(event);
@@ -149,18 +154,18 @@ export class Timeline extends Component {
     _selectionUpdate(event) {
         event.preventDefault();
         if (this.state.selecting) {
-            const pos = this._px_to_timecode(this.rootElement.scrollLeft + event.clientX);
+            const timecode = this._event_to_timecode(event);
             const state = {};
             const invertStartEnd = (markerName) => markerName == 'End' ? 'Start' : 'End';
             if (
-                (this.state.selecting == 'End' && pos < this.state.selectionStart) ||
-                (this.state.selecting == 'Start' && pos > this.state.selectionEnd)
+                (this.state.selecting == 'End' && timecode < this.state.selectionStart) ||
+                (this.state.selecting == 'Start' && timecode > this.state.selectionEnd)
             ) {
                 state['selecting'] = invertStartEnd(this.state.selecting);
                 state[`selection${this.state.selecting}`] = this.state[`selection${invertStartEnd(this.state.selecting)}`];
-                state[`selection${invertStartEnd(this.state.selecting)}`] = pos;
+                state[`selection${invertStartEnd(this.state.selecting)}`] = timecode;
             } else {
-                state[`selection${this.state.selecting}`] = pos;
+                state[`selection${this.state.selecting}`] = timecode;
             }
             this.setState(state);
         }
