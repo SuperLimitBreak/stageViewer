@@ -98,16 +98,18 @@ export class Timeline extends Component {
         if (event.ctrlKey) {
             this.zoom(this.state.zoom + (this.state.zoom * this.props.zoomInvert * event.deltaY / this.props.zoomFactor));
         }
-        else { //if (event.shiftKey) {
+        else {  //if (event.shiftKey) {
             this.rootElement.scrollLeft += event.deltaX;
         }
     }
     _mouseDown(event) {
         event.preventDefault();
-        const pos = this._px_to_timecode(event.clientX);
+        const pos = this._px_to_timecode(this.rootElement.scrollLeft + event.clientX);
         function bindMarkerDrag(_this, markerName) {
             if (
-                Math.abs(event.clientX - _this._timecode_to_px(_this.state[`selection${markerName}`])) < _this.props.selectionThresholdPx
+                _this._timecode_to_px(
+                    Math.abs(pos - _this.state[`selection${markerName}`])
+                ) < _this.props.selectionThresholdPx
             ) {
                 _this.setState({selecting: markerName});
                 _this._selectionUpdate(event);
@@ -125,7 +127,7 @@ export class Timeline extends Component {
     }
     _mouseUp(event) {
         event.preventDefault();
-        const pos = this._px_to_timecode(event.clientX);
+        const pos = this._px_to_timecode(this.rootElement.scrollLeft + event.clientX);
         if (
             this.state.selecting==null ||
             (
@@ -147,7 +149,7 @@ export class Timeline extends Component {
     _selectionUpdate(event) {
         event.preventDefault();
         if (this.state.selecting) {
-            const pos = this._px_to_timecode(event.clientX);
+            const pos = this._px_to_timecode(this.rootElement.scrollLeft + event.clientX);
             const state = {};
             const invertStartEnd = (markerName) => markerName == 'End' ? 'Start' : 'End';
             if (
@@ -172,10 +174,11 @@ export class Timeline extends Component {
     }
 
     _px_to_timecode(px) {
-        return (this.rootElement.scrollLeft + px) / (this.props.pixelsPerSecond * this.state.zoom);
+        const offset = 0;  //this.rootElement.scrollLeft +
+        return (offset + px) / (this.props.pixelsPerSecond * this.state.zoom);
     }
     _timecode_to_px(timecode) {
-        return (timecode * (this.props.pixelsPerSecond * this.state.zoom)) - this.rootElement.scrollLeft;
+        return (timecode * (this.props.pixelsPerSecond * this.state.zoom)); //- this.rootElement.scrollLeft;
     }
 
     _boundImageObjectNaturalWidth(thisComponentInstance) {
