@@ -28,7 +28,7 @@ export class TimelineManager {
             }
         }
         if (msg.func == 'scan_update_event') {
-            console.log('scan_update_event', msg);
+            //console.log('scan_update_event', msg);
             this.timelineInstance.setState({
                 name: msg.module_name,
                 cachebust: msg.module_hash,
@@ -66,7 +66,7 @@ export class Timeline extends Component {
         this._mouseWheel = this._mouseWheel.bind(this);
         this._selectionUpdate = this._selectionUpdate.bind(this);
         this._selectionEnd = this._selectionEnd.bind(this);
-        this.zoom = this.zoom.bind(this);
+        this.setZoom = this.setZoom.bind(this);
         this.seek = this.seek.bind(this);
         this.hasSelection = this.hasSelection.bind(this);
         this.inSelection = this.inSelection.bind(this);
@@ -79,7 +79,7 @@ export class Timeline extends Component {
         console.warn('seek must be overridden');
     }
 
-    zoom(zoom) {
+    setZoom(zoom) {
         this.setState({zoom: zoom});
     }
 
@@ -97,11 +97,13 @@ export class Timeline extends Component {
         return this._px_to_timecode(this.rootElement.scrollLeft + event.clientX);
     }
     _mouseWheel(event) {
-        event.preventDefault();
-        //console.log(this.rootElement.scrollLeft, this.rootElement.scrollWidth, event.clientX, event.deltaX);
+        event.preventDefault();  // Otherwise mousewheel (horizontal scroll) goes 'back' on browser
         if (event.ctrlKey) {
-
-            this.zoom(this.state.zoom + (this.state.zoom * this.props.zoomInvert * event.deltaY / this.props.zoomFactor));
+            const oldCursorTimecode = this._event_to_timecode(event);
+            const newZoom = this.state.zoom + (this.state.zoom * this.props.zoomInvert * event.deltaY / this.props.zoomFactor);
+            const newCursorPx = this._timecode_to_px(oldCursorTimecode, newZoom);
+            this.setZoom(newZoom);  // Setting the state does not update `.state` immediately.
+            this.rootElement.scrollLeft = newCursorPx - event.clientX;  // Keep cursor at focused timecode when zooming
         }
         else {  //if (event.shiftKey) {
             this.rootElement.scrollLeft += event.deltaX;
@@ -120,6 +122,7 @@ export class Timeline extends Component {
                 _this._selectionUpdate(event);
                 return true;
             }
+            return false;
         }
         if (this.hasSelection()) {
             if (bindMarkerDrag(this, 'Start')) {return;}
@@ -141,7 +144,7 @@ export class Timeline extends Component {
                     Math.abs(this.state.selectionStart - this.state.selectionEnd)
                 ) < this.props.selectionThresholdPx
             )
-         ) {
+        ) {
             if (this.hasSelection() && !this.inSelection(timecode)) {
                 this.clearSelection();
             }
@@ -178,12 +181,12 @@ export class Timeline extends Component {
         }
     }
 
-    _px_to_timecode(px) {
+    _px_to_timecode(px, zoom_override=0) {
         const offset = 0;  //this.rootElement.scrollLeft +
-        return (offset + px) / (this.props.pixelsPerSecond * this.state.zoom);
+        return (offset + px) / (this.props.pixelsPerSecond * (zoom_override || this.state.zoom));
     }
-    _timecode_to_px(timecode) {
-        return (timecode * (this.props.pixelsPerSecond * this.state.zoom)); //- this.rootElement.scrollLeft;
+    _timecode_to_px(timecode, zoom_override=0) {
+        return (timecode * (this.props.pixelsPerSecond * (zoom_override || this.state.zoom))); //- this.rootElement.scrollLeft;
     }
 
     _boundImageObjectNaturalWidth(thisComponentInstance) {
@@ -195,7 +198,7 @@ export class Timeline extends Component {
     render() {
         return (
             <div
-                className={`timeline`}
+                className={'timeline'}
                 onMouseDown={this._mouseDown}
                 onMouseLeave={this._selectionEnd}
                 onMouseMove={this._selectionUpdate}
@@ -216,7 +219,7 @@ export class Timeline extends Component {
                     className='selection'
                     style={{
                         left: `${this._timecode_to_px(this.state.selectionStart)}px`,
-                        width: `${this._timecode_to_px(this.state.selectionEnd) - this._timecode_to_px(this.state.selectionStart)}px`
+                        width: `${this._timecode_to_px(this.state.selectionEnd) - this._timecode_to_px(this.state.selectionStart)}px`,
                     }}
                     draggable='false'
                 ></div>
