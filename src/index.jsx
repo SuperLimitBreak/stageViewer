@@ -9,7 +9,7 @@ import {SubscriptionSocketReconnect, ScreenMessageRouter, utils} from 'displayTr
 import * as THREE from 'three';
 import ThreeMain from './three/main';
 import {initStage} from './stage/stageBuilder';
-import {LightManager} from './lights/LightManager';
+import {LightManager} from './lights/lightManager';
 
 
 import React from 'react';

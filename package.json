@@ -49,6 +49,7 @@
     "three": "latest",
     "tween.js": "latest",
     "webpack": "latest",
+    "webpack-cli": "latest",
     "webpack-dev-server": "latest"
   },
   "config": {
