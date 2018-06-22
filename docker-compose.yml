@@ -1,0 +1,24 @@
+version: '3.6'
+
+volumes:
+    stageViewer_node_modules:
+    stageViewer_node_modules2:
+
+services:
+
+    stage_viewer:
+        build:
+            context: ./
+            dockerfile: stageViewer.dockerfile
+        ports:
+            - 8001:8001
+        volumes:
+            #- stageViewer_node_modules2:/stageViewer/node_modules/displayTrigger/node_modules:rw
+            - stageViewer_node_modules:/stageViewer/node_modules:rw
+            - ../displayTrigger/display:/stageViewer/node_modules/displayTrigger:ro
+            - ../displayTrigger:/displayTrigger:ro
+            - .:/stageViewer:ro
+        links:
+            - stage_orchestration
+        working_dir: /stageViewer
+        command: npm run start
