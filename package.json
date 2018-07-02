@@ -35,7 +35,6 @@
     "minimist": "latest",
     "mocktail": "latest",
     "node-sass": "latest",
-    "npm-link": "latest",
     "npm-run-all": "latest",
     "null-loader": "latest",
     "open": "latest",

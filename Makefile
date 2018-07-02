@@ -25,8 +25,6 @@ test: install
 	npm run test
 
 clean:
-	rm -rf dist/
-	rm -rf ext/
 	rm -rf node_modules/
 	rm -rf static/
 	rm -rf *.log

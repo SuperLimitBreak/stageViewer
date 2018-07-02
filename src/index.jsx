@@ -4,7 +4,7 @@ require('normalize.css/normalize.css');
 import 'index.html';
 require('./styles/main.scss');
 
-import {SubscriptionSocketReconnect, ScreenMessageRouter, utils} from 'displayTrigger';
+import {SubscriptionSocketReconnect, ScreenMessageRouter} from 'displayTrigger';
 
 import * as THREE from 'three';
 import ThreeMain from './three/main';
@@ -39,8 +39,8 @@ function _initStage(config) {
 }
 
 // Fallback Config -------------------------------------------------------------
-
-const config_url = `/data/stage_${utils.getUrlParameter('stage_config') || 'default'}.json`;
+const urlParams = new URLSearchParams(window.location.search);
+const config_url = `/data/stage_${urlParams.get('stage_config') || 'default'}.json`;
 fetch(config_url).then(response => {
     return response.json();
 }).then(data => {
