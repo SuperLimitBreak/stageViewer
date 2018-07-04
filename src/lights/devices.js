@@ -1,4 +1,4 @@
-import {es6_core} from 'displayTrigger';
+import {zip} from 'calaldees_libs/es6/core';
 
 
 export function _getRGBElementBackground(state) {
@@ -36,7 +36,7 @@ export class RGBStripLight extends BaseDevice {
         }
     }
     render(state) {
-        for (let [light_state, element] of es6_core.zip(state, this.CSS3DObject.element.childNodes)) {
+        for (let [light_state, element] of zip(state, this.CSS3DObject.element.childNodes)) {
             element.style.background = _getRGBElementBackground(light_state);
         }
     }
