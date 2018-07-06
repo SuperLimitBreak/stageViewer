@@ -14,9 +14,11 @@ import {queryStringListOrInit} from 'calaldees_libs/es6/web';
 import {ScreenMessageRouter} from 'displayTrigger';
 
 import ThreeMain from './three/main';
-import {initStage} from './stage/stageBuilder';
 import {LightManager} from './lights/lightManager';
-import {TimelineManager, Timeline} from './timeline/timeline';
+import {initStage} from './stage/stageBuilder';
+
+import {TimelineManager} from './timeline/timelineManager';
+import {Timeline} from './timeline/timeline';
 
 
 const body = document.getElementsByTagName('body').item(0);
