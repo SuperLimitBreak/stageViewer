@@ -4,48 +4,64 @@ require('normalize.css/normalize.css');
 import 'index.html';
 require('./styles/main.scss');
 
-import {SubscriptionSocketReconnect, ScreenMessageRouter} from 'displayTrigger';
-
+const Immutable = require('immutable');
 import * as THREE from 'three';
+import React from 'react';
+import {render} from 'react-dom';
+
+import {SubscriptionSocketReconnect} from 'calaldees_libs/es6/websocket';
+import {queryStringListOrInit} from 'calaldees_libs/es6/web';
+import {ScreenMessageRouter} from 'displayTrigger';
+
 import ThreeMain from './three/main';
 import {initStage} from './stage/stageBuilder';
 import {LightManager} from './lights/lightManager';
-
-
-import React from 'react';
-import {render} from 'react-dom';
 import {TimelineManager, Timeline} from './timeline/timeline';
 
 
-//const body = document.getElementsByTagName('body').item(0);
-
-const three = new ThreeMain(document.getElementById('three_scene'));
-
+const body = document.getElementsByTagName('body').item(0);
 const subscription_socket = new SubscriptionSocketReconnect();
 
-const timelineInstance = render(
-    <Timeline host={'localhost:23487'} pixelsPerSecond={8}></Timeline>,
-    document.getElementById('timeline')
+
+// Timeline --------------------------------------------------------------------
+
+queryStringListOrInit(
+    'path_eventmap',
+    'eventmap',
+    `${window.location.protocol}//${window.location.hostname}/eventmap/`,
+    data => {
+        //load_eventmap(data);
+        //initEventButtons(event_lookup.keys());
+        _initTimeline();
+    },
+    null,
+    document.getElementById('timeline'),
 );
-const timelineManager = new TimelineManager(subscription_socket, timelineInstance);
 
-const screenMessageRouter = new ScreenMessageRouter(subscription_socket);
-const lightManager = new LightManager(subscription_socket);
-
-
-
-function _initStage(config) {
-    return initStage(three, screenMessageRouter, lightManager, config);
+function _initTimeline() {
+    const timelineInstance = render(
+        <Timeline host={'localhost:23487'} pixelsPerSecond={8}></Timeline>,
+        document.getElementById('timeline')
+    );
+    const timelineManager = new TimelineManager(subscription_socket, timelineInstance);
 }
 
-// Fallback Config -------------------------------------------------------------
-const urlParams = new URLSearchParams(window.location.search);
-const config_url = `/data/stage_${urlParams.get('stage_config') || 'default'}.json`;
-fetch(config_url).then(response => {
-    return response.json();
-}).then(data => {
-    _initStage(Immutable.fromJS(data));
-}).catch(error => {
-    console.error(`Unable to load ${config_url} for stage config. Falling back to default`);
-    _initStage(null);
-});
+
+// Stage -----------------------------------------------------------------------
+
+queryStringListOrInit(
+    'path_stageconfig',
+    'stageconfig',
+    `${window.location.protocol}//${window.location.hostname}/stageconfig/`,
+    data => _initStage(Immutable.fromJS(data)),
+    null,
+    document.getElementById('three_scene'),
+);
+
+function _initStage(config) {
+    const three = new ThreeMain(document.getElementById('three_scene'));
+    const screenMessageRouter = new ScreenMessageRouter(subscription_socket);
+    const lightManager = new LightManager(subscription_socket);
+
+    return initStage(three, screenMessageRouter, lightManager, config);
+}

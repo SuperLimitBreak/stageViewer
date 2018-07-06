@@ -1,8 +1,6 @@
 const Immutable = require('immutable');
 import * as THREE from 'three';
 
-import {DEFAULT_STAGE_CONFIG} from '../data/defaultStageConfig';
-
 const EMPTY_MAP = Immutable.Map();
 
 function createCSS3DObject(data) {
@@ -32,7 +30,12 @@ function createCSS3DObject(data) {
 }
 
 export function initStage(three, screenMessageRouter, lightManager, config) {
-    if (!config) {config = DEFAULT_STAGE_CONFIG;}
+    if (!config) {
+        console.error('initStage with no config');
+        return;
+        // TODO: default simple config?
+        //config = DEFAULT_STAGE_CONFIG;
+    }
 
     // screens - displayTrigger
     for (let [screen_name, screen_data] of config.get('screens', EMPTY_MAP)) {
