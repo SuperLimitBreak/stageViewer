@@ -1,11 +1,11 @@
 export class TimelineManager {
 
-    constructor(subscription_socket, timelineInstance) {
+    constructor(subscription_socket, timelineContainerInstance) {
         this.subscription_socket = subscription_socket;
         this.subscription_socket.addOnMessageListener((msg) => this.onMessage(msg));
 
-        this.timelineInstance = timelineInstance;
-        this.timelineInstance.seek = this.seek.bind(this);
+        this.timelineInstance = timelineContainerInstance.timeline;
+        this.timelineInstance.timeline.seek = this.seek.bind(this);
     }
 
     onMessage(msg) {

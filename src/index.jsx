@@ -18,7 +18,8 @@ import {LightManager} from './lights/lightManager';
 import {initStage} from './stage/stageBuilder';
 
 import {TimelineManager} from './timeline/timelineManager';
-import {Timeline} from './timeline/timeline';
+//import {Timeline} from './timeline/timeline';
+import {TimelineContainer} from './timeline/timelineContainer';
 
 
 const body = document.getElementsByTagName('body').item(0);
@@ -27,26 +28,28 @@ const subscription_socket = new SubscriptionSocketReconnect();
 
 // Timeline --------------------------------------------------------------------
 
+
 queryStringListOrInit(
     'path_eventmap',
     'eventmap',
     `${window.location.protocol}//${window.location.hostname}/eventmap/`,
     data => {
-        //load_eventmap(data);
-        //initEventButtons(event_lookup.keys());
-        _initTimeline();
+        const eventmap = Immutable.Map(Immutable.fromJS(data).map(item=>[item.get('name'), item.get('payload')]));
+        //console.log(eventmap.toJS());
+        const timelineContainerInstance = render(
+            <TimelineContainer
+                host={'localhost:23487'}
+                pixelsPerSecond={8}
+                eventmap={eventmap}
+            />,
+            document.getElementById('timeline')
+        );
+        const timelineManager = new TimelineManager(subscription_socket, timelineContainerInstance);
     },
     null,
     document.getElementById('timeline'),
 );
 
-function _initTimeline() {
-    const timelineInstance = render(
-        <Timeline host={'localhost:23487'} pixelsPerSecond={8}></Timeline>,
-        document.getElementById('timeline')
-    );
-    const timelineManager = new TimelineManager(subscription_socket, timelineInstance);
-}
 
 
 // Stage -----------------------------------------------------------------------

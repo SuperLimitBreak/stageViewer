@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React from 'react';
 
 require('./timeline.scss');
 
 
-export class Timeline extends Component {
+export class Timeline extends React.Component {
 
     constructor(props) {
         super(props);
