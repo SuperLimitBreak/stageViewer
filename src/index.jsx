@@ -1,4 +1,4 @@
-import 'core-js/fn/object/assign';
+//import 'core-js/fn/object/assign';  // TODO: Not needed?
 require('normalize.css/normalize.css');
 
 import 'index.html';
@@ -36,15 +36,20 @@ queryStringListOrInit(
     data => {
         const eventmap = Immutable.Map(Immutable.fromJS(data).map(item=>[item.get('name'), item.get('payload')]));
         //console.log(eventmap.toJS());
+        function onSelectTrack(eventname) {
+            console.log('track selected', eventname);
+            subscription_socket.sendMessages(...eventmap.get(eventname));
+        }
         const timelineContainerInstance = render(
             <TimelineContainer
                 host={'localhost:23487'}
                 pixelsPerSecond={8}
-                eventmap={eventmap}
+                eventnames={eventmap.keySeq()}
+                onSelectTrack={onSelectTrack}
             />,
             document.getElementById('timeline')
         );
-        const timelineManager = new TimelineManager(subscription_socket, timelineContainerInstance);
+        const timelineManager = new TimelineManager(subscription_socket, eventmap, timelineContainerInstance);
     },
     null,
     document.getElementById('timeline'),

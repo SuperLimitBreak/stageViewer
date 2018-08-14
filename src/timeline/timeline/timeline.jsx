@@ -9,11 +9,8 @@ export class Timeline extends React.Component {
         super(props);
         this.state = {
             name: '',
-            cursorPosition: 0,
             cachebust: '',
             imageWidth: 0,
-            selectionStart: 0,
-            selectionEnd: 0,
             selecting: null,
             zoom: 1,
         };
@@ -43,13 +40,14 @@ export class Timeline extends React.Component {
     }
 
     inSelection(timecode) {
-        return timecode >= this.state.selectionStart && timecode <= this.state.selectionEnd;
+        return timecode >= this.props.selectionStart && timecode <= this.props.selectionEnd;
     }
     hasSelection() {
-        return this.state.selecting!=null || this.state.selectionStart > 0 || this.state.selectionEnd > 0;
+        return this.state.selecting!=null || this.props.selectionStart > 0 || this.props.selectionEnd > 0;
     }
     clearSelection() {
-        this.setState({selectionStart: 0, selectionEnd: 0, selecting: null});
+        this.setState({selecting: null});
+        this.props.updateSelection({selectionStart: 0, selectionEnd: 0});
     }
 
     _event_to_timecode(event) {
@@ -90,7 +88,8 @@ export class Timeline extends React.Component {
         if (this.hasSelection() && this.inSelection(timecode)) {
             return;
         }
-        this.setState({selecting: 'End', selectionStart: timecode, selectionEnd: timecode});
+        this.setState({selecting: 'End'});
+        this.props.updateSelection({selectionStart: timecode, selectionEnd: timecode});
     }
     _mouseUp(event) {
         event.preventDefault();
@@ -100,7 +99,7 @@ export class Timeline extends React.Component {
             (
                 this.state.selecting=='End' &&
                 this._timecode_to_px(
-                    Math.abs(this.state.selectionStart - this.state.selectionEnd)
+                    Math.abs(this.props.selectionStart - this.props.selectionEnd)
                 ) < this.props.selectionThresholdPx
             )
         ) {
@@ -120,8 +119,8 @@ export class Timeline extends React.Component {
             const state = {};
             const invertStartEnd = (markerName) => markerName == 'End' ? 'Start' : 'End';
             if (
-                (this.state.selecting == 'End' && timecode < this.state.selectionStart) ||
-                (this.state.selecting == 'Start' && timecode > this.state.selectionEnd)
+                (this.state.selecting == 'End' && timecode < this.props.selectionStart) ||
+                (this.state.selecting == 'Start' && timecode > this.props.selectionEnd)
             ) {
                 state['selecting'] = invertStartEnd(this.state.selecting);
                 state[`selection${this.state.selecting}`] = this.state[`selection${invertStartEnd(this.state.selecting)}`];
@@ -130,6 +129,7 @@ export class Timeline extends React.Component {
                 state[`selection${this.state.selecting}`] = timecode;
             }
             this.setState(state);
+            this.props.updateSelection({selectionStart: state.selectionStart, selectionEnd: state.selectionEnd});  // TODO: state{} is a bit of a transitional mess from state to props - tidy this
         }
     }
     _selectionEnd(event) {
@@ -177,15 +177,15 @@ export class Timeline extends React.Component {
                 <div
                     className='selection'
                     style={{
-                        left: `${this._timecode_to_px(this.state.selectionStart)}px`,
-                        width: `${this._timecode_to_px(this.state.selectionEnd) - this._timecode_to_px(this.state.selectionStart)}px`,
+                        left: `${this._timecode_to_px(this.props.selectionStart)}px`,
+                        width: `${this._timecode_to_px(this.props.selectionEnd) - this._timecode_to_px(this.props.selectionStart)}px`,
                     }}
                     draggable='false'
                 ></div>
                 <div
                     className='cursor'
                     style={{
-                        left: `${this._timecode_to_px(this.state.cursorPosition)}px`,
+                        left: `${this._timecode_to_px(this.props.cursorPosition)}px`,
                     }}
                     draggable='false'
                 ></div>
@@ -199,4 +199,9 @@ Timeline.defaultProps = {
     selectionThresholdPx: 5,
     zoomFactor: 32,
     zoomInvert: -1,
+
+    cursorPosition: 0,
+    selectionStart: 0,
+    selectionEnd: 0,
+    updateSelection: ()=>{},
 };
