@@ -20,6 +20,7 @@ import {initStage} from './stage/stageBuilder';
 import {TimelineManager} from './timeline/timelineManager';
 //import {Timeline} from './timeline/timeline';
 import {TimelineContainer} from './timeline/timelineContainer';
+import { Object } from 'core-js';
 
 
 const body = document.getElementsByTagName('body').item(0);
@@ -40,12 +41,20 @@ queryStringListOrInit(
             console.log('track selected', eventname);
             subscription_socket.sendMessages(...eventmap.get(eventname));
         }
+        function lightsCommand(cmd, attrs={}) {
+            console.log(`lights.${cmd}`, attrs);
+            subscription_socket.sendMessages(Object.assign({deviceid: 'lights', func: `lights.${cmd}`}, attrs));
+        }
+        function onSeek(timecode) {
+            subscription_socket.sendMessages({deviceid: 'lights', func: 'lights.seek', timecode: timecode});
+        }
         const timelineContainerInstance = render(
             <TimelineContainer
                 host={'localhost:23487'}
                 pixelsPerSecond={8}
                 eventnames={eventmap.keySeq()}
                 onSelectTrack={onSelectTrack}
+                lightsCommand={lightsCommand}
             />,
             document.getElementById('timeline')
         );

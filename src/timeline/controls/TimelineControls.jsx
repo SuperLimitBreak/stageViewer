@@ -14,13 +14,40 @@ export class TimelineControls extends React.Component {
 
     constructor(props) {
         super(props);
+        this.state = {
+            playing: false,
+        }
+        this.onPlay = this.onPlay.bind(this);
+        this.onPause = this.onPause.bind(this);
+        this.onStop = this.onStop.bind(this);
+    }
+
+    onPlay() {
+        this.props.lightsCommand('start_sequence', {scene: this.props.scene, timecode: this.props.cursorPosition});
+        this.setState({playing: true});
+    }
+
+    onPause() {
+        this.props.lightsCommand('pause');
+        this.setState({playing: false});
+    }
+
+    onStop() {
+        this.props.lightsCommand('pause');
+        this.props.lightsCommand('seek', {timecode: 0});
+        this.setState({playing: false});
     }
 
     render() {
+        let play_pause = this.state.playing ?
+            <button className="timeline_pause" onClick={this.onPause}></button>
+            :
+            <button className="timeline_play" onClick={this.onPlay}></button>
+        ;
         return (
-            <div class="timeline_controls">
-                <div>&#9658; /  &#10073;&#10073;</div>
-                <div>&#9724;</div>
+            <div className="timeline_controls">
+                {play_pause}
+                <button className="timeline_stop" onClick={this.onStop}></button>
                 <div><input type="text" name="position_bar" value="0.0.0" /></div>
                 <div><input type="text" name="position_timecode" value={this.props.cursorPosition} /></div>
                 <div><input type="text" name="selectionStart" value={this.props.selectionStart} /></div>
@@ -34,3 +61,6 @@ export class TimelineControls extends React.Component {
         );
     }
 }
+TimelineControls.defaultProps = {
+    lightsCommand: ()=>{}
+};

@@ -4,3 +4,14 @@
 .timeline_controls div {
     display: inline;
 }
+
+/* https://stackoverflow.com/a/27053825/3356840 */
+.timeline_controls button.timeline_play::after {
+    content: "►";
+}
+.timeline_controls button.timeline_pause::after {
+    content: "❙❙";
+}
+.timeline_controls button.timeline_stop::after {
+    content: "◼";
+}

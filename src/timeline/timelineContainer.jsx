@@ -1,3 +1,5 @@
+// Notes on react use
+// https://stackoverflow.com/questions/24147331/react-the-right-way-to-pass-form-element-state-to-sibling-parent-elements
 
 import React from 'react';
 
@@ -28,6 +30,7 @@ export class TimelineContainer extends React.Component {
                 <TimelineControls
                     eventnames={this.props.eventnames}
                     onSelectTrack={this.props.onSelectTrack}
+                    lightsCommand={this.props.lightsCommand}
 
                     cursorPosition={this.state.cursorPosition}
                     selectionStart={this.state.selectionStart}
@@ -50,4 +53,5 @@ export class TimelineContainer extends React.Component {
 TimelineContainer.defaultProps = {
     eventnames: [],
     onSelectTrack: ()=>{},
+    lightsCommand: ()=>{},
 };
