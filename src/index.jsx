@@ -37,24 +37,12 @@ queryStringListOrInit(
     data => {
         const eventmap = Immutable.Map(Immutable.fromJS(data).map(item=>[item.get('name'), item.get('payload')]));
         //console.log(eventmap.toJS());
-        function onSelectTrack(eventname) {
-            console.log('track selected', eventname);
-            subscription_socket.sendMessages(...eventmap.get(eventname));
-        }
-        function lightsCommand(cmd, attrs={}) {
-            console.log(`lights.${cmd}`, attrs);
-            subscription_socket.sendMessages(Object.assign({deviceid: 'lights', func: `lights.${cmd}`}, attrs));
-        }
-        function onSeek(timecode) {
-            subscription_socket.sendMessages({deviceid: 'lights', func: 'lights.seek', timecode: timecode});
-        }
         const timelineContainerInstance = render(
             <TimelineContainer
                 host={'localhost:23487'}
                 pixelsPerSecond={8}
-                eventnames={eventmap.keySeq()}
-                onSelectTrack={onSelectTrack}
-                lightsCommand={lightsCommand}
+                eventmap={eventmap}
+                sendMessages={subscription_socket.sendMessages.bind(subscription_socket)}
             />,
             document.getElementById('timeline')
         );

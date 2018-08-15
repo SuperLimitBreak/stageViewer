@@ -55,6 +55,7 @@ export class TimelineControls extends React.Component {
                 <div>4/4</div>
                 <TrackSelection
                     eventnames={this.props.eventnames}
+                    name={this.props.name}
                     onSelectTrack={this.props.onSelectTrack}
                 />
             </div>

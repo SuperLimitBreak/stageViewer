@@ -8,8 +8,8 @@ export class Timeline extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            name: '',
-            cachebust: '',
+            //name: '',
+            //cachebust: '',
             imageWidth: 0,
             selecting: null,
             zoom: 1,
@@ -167,7 +167,7 @@ export class Timeline extends React.Component {
                 ref={element => this.rootElement = element}
             >
                 <img
-                    src={`http://${this.props.host}/${this.state.name}?cachebust=${this.state.cachebust}`}
+                    src={`http://${this.props.host}/${this.props.name}?cachebust=${this.props.cachebust}`}
                     style={{
                         width: `${this.state.imageWidth * this.state.zoom}px`,
                     }}

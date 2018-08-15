@@ -5,14 +5,11 @@ export class TrackSelection extends React.Component {
     constructor(props) {
         super(props);
         this.handleChange = this.handleChange.bind(this);
-        this.state = {value: ''};
-        console.log(this.props.eventnames);
+        this.props.onSelectTrack(this.props.eventnames[0]);
     }
 
     handleChange(event) {
-        const eventname = event.target.value;
-        this.setState({value: eventname});
-        this.props.onSelectTrack(eventname);
+        this.props.onSelectTrack(event.target.value);
     }
 
     render() {
@@ -20,7 +17,7 @@ export class TrackSelection extends React.Component {
             <form>
                 <label>
                     Track:
-                    <select value={this.state.value} onChange={this.handleChange}>
+                    <select value={this.props.name} onChange={this.handleChange}>
                         {this.props.eventnames.map(eventname => (
                             <option value={eventname} key={eventname}>{eventname}</option>
                         ))}

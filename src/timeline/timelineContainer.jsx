@@ -5,6 +5,7 @@ import React from 'react';
 
 import { TimelineControls } from './controls/TimelineControls';
 import { Timeline } from './timeline/timeline';
+import { Map } from 'core-js';
 
 export class TimelineContainer extends React.Component {
 
@@ -17,7 +18,25 @@ export class TimelineContainer extends React.Component {
             name: 'unknown',
             cachebust: '',
         };
+        this.onSelectTrack = this.onSelectTrack.bind(this);
+        this.lightsCommand = this.lightsCommand.bind(this);
+
         this.updateSelection = this.updateSelection.bind(this);
+    }
+
+    onSelectTrack(eventname) {
+        console.log('track selected', eventname);
+        this.props.sendMessages(...this.props.eventmap.get(eventname));
+        this.setState({name: eventname});
+    }
+
+    lightsCommand(cmd, attrs={}) {
+        console.log(`lights.${cmd}`, attrs);
+        this.props.sendMessages(Object.assign({deviceid: 'lights', func: `lights.${cmd}`}, attrs));
+    }
+
+    onSeek(timecode) {
+        this.props.sendMessages({deviceid: 'lights', func: 'lights.seek', timecode: timecode});
     }
 
     updateSelection(state) {
@@ -28,9 +47,10 @@ export class TimelineContainer extends React.Component {
         return (
             <div>
                 <TimelineControls
-                    eventnames={this.props.eventnames}
-                    onSelectTrack={this.props.onSelectTrack}
-                    lightsCommand={this.props.lightsCommand}
+                    eventnames={[...this.props.eventmap.keySeq()]}
+                    name={this.state.name}
+                    onSelectTrack={this.onSelectTrack}
+                    lightsCommand={this.lightsCommand}
 
                     cursorPosition={this.state.cursorPosition}
                     selectionStart={this.state.selectionStart}
@@ -40,6 +60,7 @@ export class TimelineContainer extends React.Component {
                     host={this.props.host}
                     pixelsPerSecond={this.props.pixelsPerSecond}
 
+                    name={this.state.name}
                     cursorPosition={this.state.cursorPosition}
                     selectionStart={this.state.selectionStart}
                     selectionEnd={this.state.selectionEnd}
@@ -51,7 +72,5 @@ export class TimelineContainer extends React.Component {
     }
 }
 TimelineContainer.defaultProps = {
-    eventnames: [],
-    onSelectTrack: ()=>{},
-    lightsCommand: ()=>{},
+    sendMessages: ()=>{},
 };
