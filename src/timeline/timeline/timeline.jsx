@@ -8,8 +8,6 @@ export class Timeline extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            //name: '',
-            //cachebust: '',
             imageWidth: 0,
             selecting: null,
             zoom: 1,

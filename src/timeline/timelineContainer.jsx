@@ -5,7 +5,7 @@ import React from 'react';
 
 import { TimelineControls } from './controls/TimelineControls';
 import { Timeline } from './timeline/timeline';
-import { Map } from 'core-js';
+
 
 export class TimelineContainer extends React.Component {
 
@@ -26,8 +26,10 @@ export class TimelineContainer extends React.Component {
 
     onSelectTrack(eventname) {
         console.log('track selected', eventname);
-        this.props.sendMessages(...this.props.eventmap.get(eventname));
-        this.setState({name: eventname});
+        this.props.sendMessages(...this.props.eventmap.get(eventname).map((payload)=>payload.map((v, k)=>{
+            return (v == 'lights.start_sequence') ? 'lights.load_sequence' : v;
+        })));
+        this.setState({name: eventname});  // TODO? is handled in subscription_socket feedback.
     }
 
     lightsCommand(cmd, attrs={}) {
@@ -61,6 +63,8 @@ export class TimelineContainer extends React.Component {
                     pixelsPerSecond={this.props.pixelsPerSecond}
 
                     name={this.state.name}
+                    cachebust={this.state.cachebust}
+
                     cursorPosition={this.state.cursorPosition}
                     selectionStart={this.state.selectionStart}
                     selectionEnd={this.state.selectionEnd}

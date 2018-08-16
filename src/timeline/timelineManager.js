@@ -40,8 +40,11 @@ export class TimelineManager {
                 cachebust: msg.module_hash,
             });
         }
-        if (msg.func == 'LightTiming.start') {
-            //this.timelineInstance.setName(msg.scene);
+        if (msg.func == 'lights.start_sequence') {
+            this.timelineInstance.setState({
+                name: msg.scene,
+                cursorPosition: msg.timecode,
+            });
         }
     }
 
