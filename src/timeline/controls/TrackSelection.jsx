@@ -5,7 +5,7 @@ export class TrackSelection extends React.Component {
     constructor(props) {
         super(props);
         this.handleChange = this.handleChange.bind(this);
-        this.props.onSelectTrack(this.props.eventnames[0]);
+        this.props.onSelectTrack(this.props.sequenceModuleNames[0]);
     }
 
     handleChange(event) {
@@ -17,9 +17,9 @@ export class TrackSelection extends React.Component {
             <form>
                 <label>
                     Track:
-                    <select value={this.props.name} onChange={this.handleChange}>
-                        {this.props.eventnames.map(eventname => (
-                            <option value={eventname} key={eventname}>{eventname}</option>
+                    <select value={this.props.sequenceModuleName} onChange={this.handleChange}>
+                        {this.props.sequenceModuleNames.map(sequenceModuleName => (
+                            <option value={sequenceModuleName} key={sequenceModuleName}>{sequenceModuleName}</option>
                         ))}
                     </select>
                 </label>

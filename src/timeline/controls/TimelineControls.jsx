@@ -23,7 +23,7 @@ export class TimelineControls extends React.Component {
     }
 
     onPlay() {
-        this.props.lightsCommand('start_sequence', {scene: this.props.name, timecode: this.props.cursorPosition});
+        this.props.lightsCommand('start_sequence', {sequence_module_name: this.props.sequenceModuleName, timecode: this.props.cursorPosition});
         this.setState({playing: true});
     }
 
@@ -54,8 +54,8 @@ export class TimelineControls extends React.Component {
                 <div><input type="text" name="selectionEnd" value={this.props.selectionEnd} /></div>
                 <div>4/4</div>
                 <TrackSelection
-                    eventnames={this.props.eventnames}
-                    name={this.props.name}
+                    sequenceModuleNames={this.props.sequenceModuleNames}
+                    sequenceModuleName={this.props.sequenceModuleName}
                     onSelectTrack={this.props.onSelectTrack}
                 />
             </div>

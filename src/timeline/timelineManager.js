@@ -19,7 +19,7 @@ export class TimelineManager {
         if (msg.func == 'lightState') {
             this.timelineContainerInstance.setState({
                 cursorPosition: msg.timecode,
-                name: msg.module_name,
+                sequenceModuleName: msg.module_name,
                 cachebust: msg.module_hash,
             });
             // If playing outside selection - send 'seek' to beginning of selection
@@ -36,13 +36,13 @@ export class TimelineManager {
         if (msg.func == 'scan_update_event') {
             //console.log('scan_update_event', msg);
             this.timelineInstance.setState({
-                name: msg.module_name,
+                sequenceModuleName: msg.module_name,
                 cachebust: msg.module_hash,
             });
         }
         if (msg.func == 'lights.start_sequence') {
             this.timelineInstance.setState({
-                name: msg.scene,
+                sequenceModuleName: msg.sequence_module_name,
                 cursorPosition: msg.timecode,
             });
         }

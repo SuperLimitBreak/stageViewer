@@ -165,7 +165,7 @@ export class Timeline extends React.Component {
                 ref={element => this.rootElement = element}
             >
                 <img
-                    src={`http://${this.props.host}/${this.props.name}?cachebust=${this.props.cachebust}`}
+                    src={`http://${this.props.host}/${this.props.sequenceModuleName}?cachebust=${this.props.cachebust}`}
                     style={{
                         width: `${this.state.imageWidth * this.state.zoom}px`,
                     }}

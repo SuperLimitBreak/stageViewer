@@ -15,7 +15,7 @@ export class TimelineContainer extends React.Component {
             cursorPosition: 0,
             selectionStart: 0,
             selectionEnd: 0,
-            name: 'unknown',
+            sequenceModuleName: 'unknown',
             cachebust: '',
         };
         this.onSelectTrack = this.onSelectTrack.bind(this);
@@ -24,12 +24,13 @@ export class TimelineContainer extends React.Component {
         this.updateSelection = this.updateSelection.bind(this);
     }
 
-    onSelectTrack(eventname) {
-        console.log('track selected', eventname);
-        this.props.sendMessages(...this.props.eventmap.get(eventname).map((payload)=>payload.map((v, k)=>{
+    onSelectTrack(sequenceModuleName) {
+        console.log('sequenceModuleName', sequenceModuleName);
+        if (!this.props.eventmap.has(sequenceModuleName)) {console.error(`${sequenceModuleName} not in eventmap`);}
+        this.props.sendMessages(...this.props.eventmap.get(sequenceModuleName).map((payload)=>payload.map((v, k)=>{
             return (v == 'lights.start_sequence') ? 'lights.load_sequence' : v;
         })));
-        this.setState({name: eventname});  // TODO? is handled in subscription_socket feedback.
+        this.setState({'sequenceModuleName': sequenceModuleName});  // TODO? is handled in subscription_socket feedback.
     }
 
     lightsCommand(cmd, attrs={}) {
@@ -49,8 +50,8 @@ export class TimelineContainer extends React.Component {
         return (
             <div>
                 <TimelineControls
-                    eventnames={[...this.props.eventmap.keySeq()]}
-                    name={this.state.name}
+                    sequenceModuleNames={[...this.props.eventmap.keySeq()]}
+                    sequenceModuleName={this.state.sequenceModuleName}
                     onSelectTrack={this.onSelectTrack}
                     lightsCommand={this.lightsCommand}
 
@@ -62,7 +63,7 @@ export class TimelineContainer extends React.Component {
                     host={this.props.host}
                     pixelsPerSecond={this.props.pixelsPerSecond}
 
-                    name={this.state.name}
+                    sequenceModuleName={this.state.sequenceModuleName}
                     cachebust={this.state.cachebust}
 
                     cursorPosition={this.state.cursorPosition}
