@@ -50,10 +50,14 @@ export class TimelineControls extends React.Component {
                 }
                 <button className="timeline_stop" onClick={this.onStop}></button>
 
-                <Timecode name="cursorPosition" position={this.props.cursorPosition} />
-                <Timecode name="selectionStart" position={this.props.selectionStart} />
-                <Timecode name="selectionEnd" position={this.props.selectionEnd} />
-                <div>4/4</div>
+                <div className='timing_info'>
+                    <div>120bpm</div>
+                    <div>4/4</div>
+                </div>
+
+                <Timecode name="cursorPosition" timecode={this.props.cursorPosition} />
+                <Timecode name="selectionStart" timecode={this.props.selectionStart} />
+                <Timecode name="selectionEnd" timecode={this.props.selectionEnd} />
 
                 <TrackSelection
                     sequenceModuleNames={this.props.sequenceModuleNames}

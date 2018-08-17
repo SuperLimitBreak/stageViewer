@@ -2,6 +2,8 @@ import React from 'react';
 
 require('./timeline.scss');
 
+const keyZoomModifyer = 'ctrlKey';
+const keySelectModifyer = 'shiftKey';
 
 export class Timeline extends React.Component {
 
@@ -53,7 +55,7 @@ export class Timeline extends React.Component {
     }
     _mouseWheel(event) {
         event.preventDefault();  // Otherwise mousewheel (horizontal scroll) goes 'back' on browser
-        if (event.ctrlKey) {
+        if (event[keyZoomModifyer]) {
             const oldCursorTimecode = this._event_to_timecode(event);
             const newZoom = this.state.zoom + (this.state.zoom * this.props.zoomInvert * event.deltaY / this.props.zoomFactor);
             const newCursorPx = this._timecode_to_px(oldCursorTimecode, newZoom);
@@ -70,7 +72,7 @@ export class Timeline extends React.Component {
         function bindMarkerDrag(_this, markerName) {
             if (
                 _this._timecode_to_px(
-                    Math.abs(timecode - _this.state[`selection${markerName}`])
+                    Math.abs(timecode - _this.props[`selection${markerName}`])
                 ) < _this.props.selectionThresholdPx
             ) {
                 _this.setState({selecting: markerName});
@@ -121,7 +123,7 @@ export class Timeline extends React.Component {
                 (this.state.selecting == 'Start' && timecode > this.props.selectionEnd)
             ) {
                 state['selecting'] = invertStartEnd(this.state.selecting);
-                state[`selection${this.state.selecting}`] = this.state[`selection${invertStartEnd(this.state.selecting)}`];
+                state[`selection${this.state.selecting}`] = this.props[`selection${invertStartEnd(this.state.selecting)}`];
                 state[`selection${invertStartEnd(this.state.selecting)}`] = timecode;
             } else {
                 state[`selection${this.state.selecting}`] = timecode;

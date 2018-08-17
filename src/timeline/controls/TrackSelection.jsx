@@ -14,6 +14,7 @@ export class TrackSelection extends React.Component {
 
     render() {
         return (
+            <div className='track_selection'>
             <form>
                 <label>
                     Track:
@@ -24,6 +25,7 @@ export class TrackSelection extends React.Component {
                     </select>
                 </label>
             </form>
+            </div>
         );
     }
 }

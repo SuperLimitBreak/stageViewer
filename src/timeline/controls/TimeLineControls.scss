@@ -2,11 +2,21 @@
     order: 1;
     flex-grow: 0;
 
+    position: relative;
     background-color: yellow;
 }
-.timeline_controls div {
-    display: inline;
+
+.timing_info {
+    display: inline-block;
 }
+
+
+.track_selection {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
 
 /* https://stackoverflow.com/a/27053825/3356840 */
 .timeline_controls button.timeline_play::after {
