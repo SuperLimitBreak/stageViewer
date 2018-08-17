@@ -6,6 +6,7 @@
 import React from 'react';
 
 import { TrackSelection } from './TrackSelection';
+import { Timecode } from './Timecode';
 
 require('./TimelineControls.scss');
 
@@ -39,20 +40,21 @@ export class TimelineControls extends React.Component {
     }
 
     render() {
-        let play_pause = this.state.playing ?
-            <button className="timeline_pause" onClick={this.onPause}></button>
-            :
-            <button className="timeline_play" onClick={this.onPlay}></button>
-        ;
         return (
             <div className="timeline_controls">
-                {play_pause}
+                {
+                    this.state.playing ?
+                        <button className="timeline_pause" onClick={this.onPause}></button>
+                        :
+                        <button className="timeline_play" onClick={this.onPlay}></button>
+                }
                 <button className="timeline_stop" onClick={this.onStop}></button>
-                <div><input type="text" name="position_bar" value="0.0.0" /></div>
-                <div><input type="text" name="position_timecode" value={this.props.cursorPosition} /></div>
-                <div><input type="text" name="selectionStart" value={this.props.selectionStart} /></div>
-                <div><input type="text" name="selectionEnd" value={this.props.selectionEnd} /></div>
+
+                <Timecode name="cursorPosition" position={this.props.cursorPosition} />
+                <Timecode name="selectionStart" position={this.props.selectionStart} />
+                <Timecode name="selectionEnd" position={this.props.selectionEnd} />
                 <div>4/4</div>
+
                 <TrackSelection
                     sequenceModuleNames={this.props.sequenceModuleNames}
                     sequenceModuleName={this.props.sequenceModuleName}

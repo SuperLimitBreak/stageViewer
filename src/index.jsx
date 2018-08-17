@@ -1,8 +1,7 @@
-//import 'core-js/fn/object/assign';  // TODO: Not needed?
 require('normalize.css/normalize.css');
 
 import 'index.html';
-require('./styles/main.scss');
+require('./index.scss');
 
 const Immutable = require('immutable');
 import * as THREE from 'three';
@@ -18,9 +17,7 @@ import {LightManager} from './lights/lightManager';
 import {initStage} from './stage/stageBuilder';
 
 import {TimelineManager} from './timeline/timelineManager';
-//import {Timeline} from './timeline/timeline';
 import {TimelineContainer} from './timeline/timelineContainer';
-import { Object } from 'core-js';
 
 
 const body = document.getElementsByTagName('body').item(0);

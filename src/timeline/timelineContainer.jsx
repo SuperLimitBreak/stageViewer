@@ -1,6 +1,8 @@
 // Notes on react use
 // https://stackoverflow.com/questions/24147331/react-the-right-way-to-pass-form-element-state-to-sibling-parent-elements
 
+require('./TimelineContainer.scss');
+
 import React from 'react';
 
 import { TimelineControls } from './controls/TimelineControls';
@@ -48,7 +50,7 @@ export class TimelineContainer extends React.Component {
 
     render() {
         return (
-            <div>
+            <div className='timeline_container'>
                 <TimelineControls
                     sequenceModuleNames={[...this.props.eventmap.keySeq()]}
                     sequenceModuleName={this.state.sequenceModuleName}
@@ -71,7 +73,7 @@ export class TimelineContainer extends React.Component {
                     selectionEnd={this.state.selectionEnd}
 
                     updateSelection={this.updateSelection}
-                />;
+                />
             </div>
         );
     }

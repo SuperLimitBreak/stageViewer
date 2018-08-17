@@ -155,7 +155,7 @@ export class Timeline extends React.Component {
     render() {
         return (
             <div
-                className={'timeline'}
+                className='timeline'
                 onMouseDown={this._mouseDown}
                 onMouseLeave={this._selectionEnd}
                 onMouseMove={this._selectionUpdate}
