@@ -23,16 +23,11 @@ export class Timeline extends React.Component {
         this._selectionUpdate = this._selectionUpdate.bind(this);
         this._selectionEnd = this._selectionEnd.bind(this);
         this.setZoom = this.setZoom.bind(this);
-        this.seek = this.seek.bind(this);
         this.hasSelection = this.hasSelection.bind(this);
         this.inSelection = this.inSelection.bind(this);
         this.clearSelection = this.clearSelection.bind(this);
         this._boundImageObjectNaturalWidth = this._boundImageObjectNaturalWidth.bind(this);
         this._event_to_timecode = this._event_to_timecode.bind(this);
-    }
-
-    seek(timecode) {
-        console.warn('seek must be overridden');
     }
 
     setZoom(zoom) {
@@ -47,7 +42,7 @@ export class Timeline extends React.Component {
     }
     clearSelection() {
         this.setState({selecting: null});
-        this.props.updateSelection({selectionStart: 0, selectionEnd: 0});
+        this.props.onUpdateSelection({selectionStart: 0, selectionEnd: 0});
     }
 
     _event_to_timecode(event) {
@@ -95,7 +90,7 @@ export class Timeline extends React.Component {
 
         if (!keySelectModifyer || (keySelectModifyer && event[keySelectModifyer])) {
             this.setState({selecting: 'End'});
-            this.props.updateSelection({selectionStart: timecode, selectionEnd: timecode});
+            this.props.onUpdateSelection({selectionStart: timecode, selectionEnd: timecode});
         }
     }
     _mouseUp(event) {
@@ -113,7 +108,7 @@ export class Timeline extends React.Component {
             if (this.hasSelection() && !this.inSelection(timecode)) {
                 this.clearSelection();
             }
-            this.seek(timecode);
+            this.props.onSeek(timecode);
         }
         else {
             this._selectionEnd(event);
@@ -136,7 +131,7 @@ export class Timeline extends React.Component {
                 state[`selection${this.state.selecting}`] = timecode;
             }
             this.setState(state);
-            this.props.updateSelection({selectionStart: state.selectionStart, selectionEnd: state.selectionEnd});  // TODO: state{} is a bit of a transitional mess from state to props - tidy this
+            this.props.onUpdateSelection({selectionStart: state.selectionStart, selectionEnd: state.selectionEnd});  // TODO: state{} is a bit of a transitional mess from state to props - tidy this
         }
     }
     _selectionEnd(event) {
@@ -210,5 +205,6 @@ Timeline.defaultProps = {
     cursorPosition: 0,
     selectionStart: 0,
     selectionEnd: 0,
-    updateSelection: ()=>{},
+    onUpdateSelection: ()=>{},
+    onSeek: ()=>{},
 };

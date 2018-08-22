@@ -23,7 +23,8 @@ export class TimelineContainer extends React.Component {
         this.onSelectTrack = this.onSelectTrack.bind(this);
         this.lightsCommand = this.lightsCommand.bind(this);
 
-        this.updateSelection = this.updateSelection.bind(this);
+        this.onSeek = this.onSeek.bind(this);
+        this.onUpdateSelection = this.onUpdateSelection.bind(this);
     }
 
     onSelectTrack(sequenceModuleName) {
@@ -41,10 +42,10 @@ export class TimelineContainer extends React.Component {
     }
 
     onSeek(timecode) {
-        this.props.sendMessages({deviceid: 'lights', func: 'lights.seek', timecode: timecode});
+        this.props.sendMessages({deviceid: 'lights', func: 'lights.single_frame_at_timecode', timecode: timecode});
     }
 
-    updateSelection(state) {
+    onUpdateSelection(state) {
         this.setState(state);  //Object.assign(this.state, state)
     }
 
@@ -72,7 +73,8 @@ export class TimelineContainer extends React.Component {
                     selectionStart={this.state.selectionStart}
                     selectionEnd={this.state.selectionEnd}
 
-                    updateSelection={this.updateSelection}
+                    onSeek={this.onSeek}
+                    onUpdateSelection={this.onUpdateSelection}
                 />
             </div>
         );
