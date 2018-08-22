@@ -69,6 +69,8 @@ export class Timeline extends React.Component {
     _mouseDown(event) {
         event.preventDefault();
         const timecode = this._event_to_timecode(event);
+
+        // Drag selection start/end markers - bind to props.selectionThresholdPx
         function bindMarkerDrag(_this, markerName) {
             if (
                 _this._timecode_to_px(
@@ -85,11 +87,16 @@ export class Timeline extends React.Component {
             if (bindMarkerDrag(this, 'Start')) {return;}
             if (bindMarkerDrag(this, 'End')) {return;}
         }
+
+        // ?? do nothing inside selection ??
         if (this.hasSelection() && this.inSelection(timecode)) {
             return;
         }
-        this.setState({selecting: 'End'});
-        this.props.updateSelection({selectionStart: timecode, selectionEnd: timecode});
+
+        if (!keySelectModifyer || (keySelectModifyer && event[keySelectModifyer])) {
+            this.setState({selecting: 'End'});
+            this.props.updateSelection({selectionStart: timecode, selectionEnd: timecode});
+        }
     }
     _mouseUp(event) {
         event.preventDefault();
@@ -116,7 +123,7 @@ export class Timeline extends React.Component {
         event.preventDefault();
         if (this.state.selecting) {
             const timecode = this._event_to_timecode(event);
-            const state = {};
+            const state = {selectionStart: this.props.selectionStart, selectionEnd: this.props.selectionEnd};
             const invertStartEnd = (markerName) => markerName == 'End' ? 'Start' : 'End';
             if (
                 (this.state.selecting == 'End' && timecode < this.props.selectionStart) ||

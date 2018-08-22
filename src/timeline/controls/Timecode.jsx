@@ -13,7 +13,7 @@ export class Timecode extends React.Component {
         return (
             <div className="timecode">
                 <input type="text" name={`${this.props.name}_beatsbar`} value={timestamp_to_timecode(this.props.timecode, this.props.bpm, this.props.timesigniture)} />
-                <input type="text" name={`${this.props.name}_timecode`} value={this.props.timecode} />
+                <input type="text" name={`${this.props.name}_timecode`} value={(this.props.timecode).toFixed(2)} />
             </div>
         );
     }
