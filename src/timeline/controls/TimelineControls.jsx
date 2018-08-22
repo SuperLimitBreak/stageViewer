@@ -15,28 +15,26 @@ export class TimelineControls extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            playing: false,
-        }
+
         this.onPlay = this.onPlay.bind(this);
         this.onPause = this.onPause.bind(this);
         this.onStop = this.onStop.bind(this);
     }
 
     onPlay() {
+        this.props.onUpdateState({playing: true});
         this.props.lightsCommand('start_sequence', {sequence_module_name: this.props.sequenceModuleName, timecode: this.props.cursorPosition});
-        this.setState({playing: true});
     }
 
     onPause() {
+        this.props.onUpdateState({playing: false});
         this.props.lightsCommand('pause');
-        this.setState({playing: false});
     }
 
     onStop() {
+        this.props.onUpdateState({playing: false});
         this.props.lightsCommand('pause');
-        this.props.lightsCommand('seek', {timecode: 0});
-        this.setState({playing: false});
+        this.props.lightsCommand('single_frame_at_timecode', {timecode: 0});
     }
 
     render() {
@@ -47,7 +45,7 @@ export class TimelineControls extends React.Component {
         return (
             <div className="timeline_controls">
                 {
-                    this.state.playing ?
+                    this.props.playing ?
                         <button className="timeline_pause" onClick={this.onPause}></button>
                         :
                         <button className="timeline_play" onClick={this.onPlay}></button>

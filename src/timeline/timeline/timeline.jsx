@@ -42,7 +42,7 @@ export class Timeline extends React.Component {
     }
     clearSelection() {
         this.setState({selecting: null});
-        this.props.onUpdateSelection({selectionStart: 0, selectionEnd: 0});
+        this.props.onUpdateState({selectionStart: 0, selectionEnd: 0});
     }
 
     _event_to_timecode(event) {
@@ -90,7 +90,7 @@ export class Timeline extends React.Component {
 
         if (!keySelectModifyer || (keySelectModifyer && event[keySelectModifyer])) {
             this.setState({selecting: 'End'});
-            this.props.onUpdateSelection({selectionStart: timecode, selectionEnd: timecode});
+            this.props.onUpdateState({selectionStart: timecode, selectionEnd: timecode});
         }
     }
     _mouseUp(event) {
@@ -131,7 +131,7 @@ export class Timeline extends React.Component {
                 state[`selection${this.state.selecting}`] = timecode;
             }
             this.setState(state);
-            this.props.onUpdateSelection({selectionStart: state.selectionStart, selectionEnd: state.selectionEnd});  // TODO: state{} is a bit of a transitional mess from state to props - tidy this
+            this.props.onUpdateState({selectionStart: state.selectionStart, selectionEnd: state.selectionEnd});  // TODO: state{} is a bit of a transitional mess from state to props - tidy this
         }
     }
     _selectionEnd(event) {
@@ -205,6 +205,6 @@ Timeline.defaultProps = {
     cursorPosition: 0,
     selectionStart: 0,
     selectionEnd: 0,
-    onUpdateSelection: ()=>{},
+    onUpdateState: ()=>{},
     onSeek: ()=>{},
 };

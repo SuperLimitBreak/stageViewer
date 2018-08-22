@@ -1,3 +1,4 @@
+
 export class TimelineManager {
 
     constructor(subscription_socket, eventmap, timelineContainerInstance) {
@@ -17,39 +18,35 @@ export class TimelineManager {
 
     onMessage(msg) {
         if (msg.func == 'lightState') {
+
             this.timelineContainerInstance.setState({
                 cursorPosition: msg.timecode,
                 sequenceModuleName: msg.module_name,
                 cachebust: msg.module_hash,
             });
+
             // If playing outside selection - send 'seek' to beginning of selection
-            /*
-            TODO: Reinstate this functionality
             if (
-                this.timelineInstance.hasSelection() &&
-                !this.timelineInstance.inSelection(this.timelineInstance.state.cursorPosition)
+                this.timelineContainerInstance._timeline_react_component.hasSelection() &&
+                !this.timelineContainerInstance._timeline_react_component.inSelection(msg.timecode)
             ) {
-                this.seek(this.timelineInstance.state.selectionStart);
+                console.info(`state timecode ${msg.timecode} outside selector bounds - returning to selectionStart ${this.timelineContainerInstance.state.selectionStart}`);
+                this.timelineContainerInstance.onSeek(this.timelineContainerInstance.state.selectionStart);
             }
-            */
         }
         if (msg.func == 'scan_update_event') {
             //console.log('scan_update_event', msg);
-            this.timelineInstance.setState({
+            this.timelineContainerInstance.setState({
                 sequenceModuleName: msg.module_name,
                 cachebust: msg.module_hash,
             });
         }
         if (msg.func == 'lights.start_sequence') {
-            this.timelineInstance.setState({
+            this.timelineContainerInstance.setState({
                 sequenceModuleName: msg.sequence_module_name,
                 cursorPosition: msg.timecode,
             });
         }
-    }
-
-    seek(timecode) {
-        this.subscription_socket.sendMessages({deviceid: 'lights', func: 'lights.seek', timecode: timecode});
     }
 
 }

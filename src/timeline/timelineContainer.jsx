@@ -14,6 +14,7 @@ export class TimelineContainer extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            playing: false,
             cursorPosition: 0,
             selectionStart: 0,
             selectionEnd: 0,
@@ -24,7 +25,7 @@ export class TimelineContainer extends React.Component {
         this.lightsCommand = this.lightsCommand.bind(this);
 
         this.onSeek = this.onSeek.bind(this);
-        this.onUpdateSelection = this.onUpdateSelection.bind(this);
+        this.onUpdateState = this.onUpdateState.bind(this);
     }
 
     onSelectTrack(sequenceModuleName) {
@@ -42,10 +43,16 @@ export class TimelineContainer extends React.Component {
     }
 
     onSeek(timecode) {
-        this.props.sendMessages({deviceid: 'lights', func: 'lights.single_frame_at_timecode', timecode: timecode});
+        console.log('onSeek', timecode);
+        if (this.state.playing) {
+            this.lightsCommand('start_sequence', {timecode: this.state.selectionStart});
+        }
+        else {
+            this.lightsCommand('single_frame_at_timecode', {timecode: timecode});
+        }
     }
 
-    onUpdateSelection(state) {
+    onUpdateState(state) {
         this.setState(state);  //Object.assign(this.state, state)
     }
 
@@ -58,11 +65,16 @@ export class TimelineContainer extends React.Component {
                     onSelectTrack={this.onSelectTrack}
                     lightsCommand={this.lightsCommand}
 
+                    playing={this.state.playing}
                     cursorPosition={this.state.cursorPosition}
                     selectionStart={this.state.selectionStart}
                     selectionEnd={this.state.selectionEnd}
+
+                    onUpdateState={this.onUpdateState}
                 />
                 <Timeline
+                    ref={(child) => { this._timeline_react_component = child; }}
+
                     host={this.props.host}
                     pixelsPerSecond={this.props.pixelsPerSecond}
 
@@ -74,7 +86,7 @@ export class TimelineContainer extends React.Component {
                     selectionEnd={this.state.selectionEnd}
 
                     onSeek={this.onSeek}
-                    onUpdateSelection={this.onUpdateSelection}
+                    onUpdateState={this.onUpdateState}
                 />
             </div>
         );
