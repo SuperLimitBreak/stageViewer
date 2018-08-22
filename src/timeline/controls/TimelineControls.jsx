@@ -40,6 +40,10 @@ export class TimelineControls extends React.Component {
     }
 
     render() {
+        const timecodeFactory = (name) => {
+            return <Timecode name={name} timecode={this.props[name]} bpm={this.props.bpm} timesigniture={this.props.timesigniture}/>;
+        }
+
         return (
             <div className="timeline_controls">
                 {
@@ -51,13 +55,13 @@ export class TimelineControls extends React.Component {
                 <button className="timeline_stop" onClick={this.onStop}></button>
 
                 <div className='timing_info'>
-                    <div>120bpm</div>
-                    <div>4/4</div>
+                    <div>{this.props.bpm}bpm</div>
+                    <div>{this.props.timesigniture.beats}/{this.props.timesigniture.bar}</div>
                 </div>
 
-                <Timecode name="cursorPosition" timecode={this.props.cursorPosition} />
-                <Timecode name="selectionStart" timecode={this.props.selectionStart} />
-                <Timecode name="selectionEnd" timecode={this.props.selectionEnd} />
+                {timecodeFactory("cursorPosition")}
+                {timecodeFactory("selectionStart")}
+                {timecodeFactory("selectionEnd")}
 
                 <TrackSelection
                     sequenceModuleNames={this.props.sequenceModuleNames}
@@ -69,5 +73,7 @@ export class TimelineControls extends React.Component {
     }
 }
 TimelineControls.defaultProps = {
+    bpm: 120,
+    timesigniture: {beats: 4, bar: 4},
     lightsCommand: ()=>{}
 };
