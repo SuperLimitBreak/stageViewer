@@ -19,16 +19,12 @@ export class TimelineManager {
     onMessage(msg) {
         if (msg.func == 'lightState') {
 
-            this.timelineContainerInstance.setState(
-                Object.assign(
-                    {
-                        cursorPosition: msg.timecode,
-                        sequenceModuleName: msg.module_name,
-                        cachebust: msg.module_hash,
-                    },
-                    msg.playing == undefined ? {} : {playing: msg.playing},
-                )
-            );
+            this.timelineContainerInstance.setState({
+                cursorPosition: msg.timecode,
+                sequenceModuleName: msg.module_name,
+                cachebust: msg.module_hash,
+                playing: msg.playing,
+            });
 
             // If playing outside selection - send 'seek' to beginning of selection
             if (

@@ -44,12 +44,7 @@ export class TimelineContainer extends React.Component {
 
     onSeek(timecode) {
         console.log('onSeek', timecode);
-        if (this.state.playing) {
-            this.lightsCommand('start_sequence', {timecode: this.state.selectionStart});
-        }
-        else {
-            this.lightsCommand('single_frame_at_timecode', {timecode: timecode});
-        }
+        this.lightsCommand('seek', {timecode: timecode});
     }
 
     onUpdateState(state) {

@@ -34,7 +34,7 @@ export class TimelineControls extends React.Component {
     onStop() {
         this.props.onUpdateState({playing: false});
         this.props.lightsCommand('pause');
-        this.props.lightsCommand('single_frame_at_timecode', {timecode: 0});
+        this.props.lightsCommand('seek', {timecode: 0});
     }
 
     render() {
