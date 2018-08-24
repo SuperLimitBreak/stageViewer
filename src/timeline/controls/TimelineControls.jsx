@@ -23,7 +23,7 @@ export class TimelineControls extends React.Component {
 
     onPlay() {
         this.props.onUpdateState({playing: true});
-        this.props.lightsCommand('start_sequence', {sequence_module_name: this.props.sequenceModuleName, timecode: this.props.cursorPosition});
+        this.props.lightsCommand('start_sequence', {timecode: this.props.cursorPosition});
     }
 
     onPause() {

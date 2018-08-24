@@ -31,15 +31,15 @@ export class TimelineContainer extends React.Component {
     onSelectTrack(sequenceModuleName) {
         console.log('sequenceModuleName', sequenceModuleName);
         if (!this.props.eventmap.has(sequenceModuleName)) {console.error(`${sequenceModuleName} not in eventmap`);}
-        this.props.sendMessages(...this.props.eventmap.get(sequenceModuleName).map((payload)=>payload.map((v, k)=>{
+        this.props.sendMessages(...this.props.eventmap.get(sequenceModuleName).map((payload)=>payload.map((v)=>{
             return (v == 'lights.start_sequence') ? 'lights.load_sequence' : v;
         })));
-        this.setState({'sequenceModuleName': sequenceModuleName});  // TODO? is handled in subscription_socket feedback.
+        this.setState({'sequenceModuleName': sequenceModuleName});  // TODO? unneeded? is handled in subscription_socket feedback.
     }
 
     lightsCommand(cmd, attrs={}) {
         console.log(`lights.${cmd}`, attrs);
-        this.props.sendMessages(Object.assign({deviceid: 'lights', func: `lights.${cmd}`}, attrs));
+        this.props.sendMessages(Object.assign({deviceid: 'lights', func: `lights.${cmd}`, sequence_module_name: this.state.sequenceModuleName}, attrs));
     }
 
     onSeek(timecode) {
