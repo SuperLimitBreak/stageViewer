@@ -9,12 +9,13 @@
     "react": "latest"
   },
   "devDependencies": {
-    "babel-core": "latest",
+    "@babel/core": "latest",
+    "@babel/preset-env": "latest",
+    "@babel/preset-react": "latest",
     "babel-eslint": "latest",
     "babel-loader": "latest",
     "babel-polyfill": "latest",
     "babel-preset-modern-browsers": "latest",
-    "babel-preset-react": "latest",
     "babelify": "latest",
     "copyfiles": "latest",
     "css-loader": "latest",

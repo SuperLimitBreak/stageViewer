@@ -12,8 +12,8 @@ services:
       - ./:/stageViewer:ro
       - /stageViewer/node_modules  # http://jdlm.info/articles/2016/03/06/lessons-building-node-app-docker.html
       - ./static:/stageViewer/static:rw
-    links:
-      - stage_orchestration
+    #links:
+    #  - stage_orchestration
     command: npm run start
 
   # docker-compose run --rm npm_run
@@ -26,4 +26,7 @@ services:
       - ./:/stageViewer:ro
       - /stageViewer/node_modules  # http://jdlm.info/articles/2016/03/06/lessons-building-node-app-docker.html
       - ./static:/stageViewer/static:rw
+      - ../displayTrigger/:/displayTrigger/
+      - ../displayTrigger/display/:/stageViewer/node_modules/displayTrigger/:ro
+      - ../libs/:/stageViewer/node_modules/calaldees_libs/:ro
     command: build
