@@ -1,6 +1,6 @@
 // The control buttons play, pause, stop
 // the current track (as dropdown, linked to eventmap)
-// the current timecodes (timecode and beats/bars), timesigniture
+// the current timecodes (timecode and beats/bars), timesignature
 // this component sits above the timeline
 
 import React from 'react';
@@ -39,7 +39,7 @@ export class TimelineControls extends React.Component {
 
     render() {
         const timecodeFactory = (name) => {
-            return <Timecode name={name} timecode={this.props[name]} bpm={this.props.bpm} timesigniture={this.props.timesigniture}/>;
+            return <Timecode name={name} timecode={this.props[name]} bpm={this.props.bpm} timesignature={this.props.timesignature}/>;
         }
 
         return (
@@ -54,7 +54,7 @@ export class TimelineControls extends React.Component {
 
                 <div className='timing_info'>
                     <div>{this.props.bpm}bpm</div>
-                    <div>{this.props.timesigniture.beats}/{this.props.timesigniture.bar}</div>
+                    <div>{this.props.timesignature}</div>
                 </div>
 
                 {timecodeFactory("cursorPosition")}
@@ -72,6 +72,6 @@ export class TimelineControls extends React.Component {
 }
 TimelineControls.defaultProps = {
     bpm: 120,
-    timesigniture: {beats: 4, bar: 4},
+    timesignature: '4:4',
     lightsCommand: ()=>{}
 };

@@ -21,8 +21,10 @@ export class TimelineManager {
 
             this.timelineContainerInstance.setState({
                 cursorPosition: msg.timecode,
-                sequenceModuleName: msg.module_name,
+                sequenceModuleName: msg.sequence_module_name,
                 cachebust: msg.module_hash,
+                timsignature: msg.timsignature,
+                bpm: msg.bpm,
                 playing: msg.playing,
             });
 
@@ -38,7 +40,7 @@ export class TimelineManager {
         if (msg.func == 'scan_update_event') {
             //console.log('scan_update_event', msg);
             this.timelineContainerInstance.setState({
-                sequenceModuleName: msg.module_name,
+                sequenceModuleName: msg.sequence_module_name,
                 cachebust: msg.module_hash,
             });
         }

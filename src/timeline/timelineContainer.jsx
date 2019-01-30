@@ -20,6 +20,8 @@ export class TimelineContainer extends React.Component {
             selectionEnd: 0,
             sequenceModuleName: 'unknown',
             cachebust: '',
+            bpm: 120,
+            timesignature: '4:4',
         };
         this.onSelectTrack = this.onSelectTrack.bind(this);
         this.lightsCommand = this.lightsCommand.bind(this);
@@ -27,21 +29,31 @@ export class TimelineContainer extends React.Component {
         this.onSeek = this.onSeek.bind(this);
         this.onUpdateState = this.onUpdateState.bind(this);
 
-        this._lookup_sequenceModuleName = this._lookup_sequenceModuleName.bind(this);
+        //this._lookup_sequenceModuleName = this._lookup_sequenceModuleName.bind(this);
     }
 
-    _lookup_sequenceModuleName(sequenceModuleName) {
+    // NOT USED?
+    get sequenceModuleNames() {
         // sigh ... we refer to `sequenceModuleName` in this js code as the KEY in the eventmap
         // this is NOT the sequenceModuleName that the lighting system uses. sequenceModuleName is the item called with light.start_sequence.
         // This function is a mapping between eventmap[sequenceModuleName]->func=light.start_sequence--scene with sequenceModuleName as a fallback
         // not brilliant
-        for (let payload of this.props.eventmap.get(sequenceModuleName)) {
-            if (payload.get('func') == 'lights.start_sequence' || payload.get('func') == 'lights.load_sequence') {
-                if (payload.get('sequence_module_name')) {return payload.get('sequence_module_name');}
-                if (payload.get('scene')) {return payload.get('scene');}  // legacy fallback - can be removed?
+        //const sequenceModuleName = this.state.sequenceModuleName;
+        //const sequenceModuleName_lookup = 
+        return this.props.eventmap.map((payloads, sequenceModuleName) => {
+            for (let payload of payloads) {
+                if (payload.get('func') == 'lights.start_sequence' || payload.get('func') == 'lights.load_sequence') {
+                    if (payload.get('sequence_module_name')) {return payload.get('sequence_module_name');}
+                    if (payload.get('scene')) {return payload.get('scene');}  // legacy fallback - can be removed?
+                }
             }
-        }
-        return sequenceModuleName; // return fallback
+            return sequenceModuleName;
+        }).valueSeq();
+        //return sequenceModuleName_lookup;
+        //const temp = sequenceModuleName_lookup.merge(sequenceModuleName_lookup.flip());
+        //const temp2 = temp.get(sequenceModuleName, sequenceModuleName);
+        //console.log(`YAY sequenceModuleName ${sequenceModuleName} ${temp2}`, temp.toJS());
+        //return temp2;
     }
 
     onSelectTrack(sequenceModuleName) {
@@ -55,7 +67,7 @@ export class TimelineContainer extends React.Component {
 
     lightsCommand(cmd, attrs={}) {
         console.log(`lights.${cmd}`, attrs);
-        this.props.sendMessages(Object.assign({deviceid: 'lights', func: `lights.${cmd}`, sequence_module_name: this._lookup_sequenceModuleName(this.state.sequenceModuleName)}, attrs));
+        this.props.sendMessages(Object.assign({deviceid: 'lights', func: `lights.${cmd}`, sequence_module_name: this.state.sequenceModuleName}, attrs));
     }
 
     onSeek(timecode) {
@@ -80,6 +92,9 @@ export class TimelineContainer extends React.Component {
                     cursorPosition={this.state.cursorPosition}
                     selectionStart={this.state.selectionStart}
                     selectionEnd={this.state.selectionEnd}
+
+                    bpm={this.state.bpm}
+                    timesignature={this.state.timesignature}
 
                     onUpdateState={this.onUpdateState}
                 />
