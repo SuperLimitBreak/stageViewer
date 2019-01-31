@@ -7,7 +7,7 @@ export class LightManager {
     constructor(subscription_socket) {
         this.devices = new Map();
         subscription_socket.addOnMessageListener((msg) => this.onMessage(msg));
-        subscription_socket.addSubscriptions(['light_visulisation', 'lights']);
+        subscription_socket.addSubscriptions(['light_visulisation', 'lights']);    // TODO: this is duplicated in timelineManager.js
     }
 
     bindLight(name, data, CSS3DObject) {

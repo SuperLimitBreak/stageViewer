@@ -67,5 +67,7 @@ function _initStage(config) {
     const screenMessageRouter = new ScreenMessageRouter(subscription_socket);
     const lightManager = new LightManager(subscription_socket);
 
+    screenMessageRouter.bindScreen('audio', document.getElementById('audio_container'), ['audio']);
+
     return initStage(three, screenMessageRouter, lightManager, config);
 }

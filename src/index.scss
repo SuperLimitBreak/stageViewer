@@ -16,6 +16,12 @@ body {
     right: 0;
 }
 
+#audio_container {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+}
+
 #three_scene {
     /*
     position: absolute;

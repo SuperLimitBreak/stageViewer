@@ -4,6 +4,7 @@ export class TimelineManager {
     constructor(subscription_socket, eventmap, timelineContainerInstance) {
         this.subscription_socket = subscription_socket;
         this.subscription_socket.addOnMessageListener((msg) => this.onMessage(msg));
+        this.subscription_socket.addSubscriptions(['light_visulisation', 'lights']);  // TODO: this is duplicated in lightManager.js
 
         this.timelineContainerInstance = timelineContainerInstance;
         this.eventmap = eventmap;
