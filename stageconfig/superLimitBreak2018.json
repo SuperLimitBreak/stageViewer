@@ -14,7 +14,8 @@
             },
             "subscriptions": [
                 "main",
-                "front"
+                "front",
+                "video"
             ]
         },
         "rear": {
@@ -29,7 +30,8 @@
                 "z": -100
             },
             "subscriptions": [
-                "rear"
+                "rear",
+                "video"
             ]
         }
     },

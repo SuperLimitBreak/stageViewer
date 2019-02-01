@@ -67,7 +67,16 @@ export class TimelineContainer extends React.Component {
 
     lightsCommand(cmd, attrs={}) {
         console.log(`lights.${cmd}`, attrs);
-        this.props.sendMessages(Object.assign({deviceid: 'lights', func: `lights.${cmd}`, sequence_module_name: this.state.sequenceModuleName}, attrs));
+        const msgs = [
+            Object.assign({deviceid: 'lights', func: `lights.${cmd}`, sequence_module_name: this.state.sequenceModuleName}, attrs),
+        ];
+        if (cmd == 'pause') {
+            msgs.push(
+                {deviceid: 'audio', func: `audio.${cmd}`},
+                {deviceid: 'video', func: `video.${cmd}`},
+            );
+        }
+        this.props.sendMessages(...msgs);
     }
 
     onSeek(timecode) {
