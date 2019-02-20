@@ -1,0 +1,340 @@
+{
+    "screens": {
+        "front": {
+            "display": {
+                "width": 300,
+                "height": 200,
+                "style": "opacity: 0.5;",
+                "pivot": "top"
+            },
+            "position": {
+                "x": 0,
+                "y": 200,
+                "z": 100
+            },
+            "subscriptions": [
+                "main",
+                "front",
+                "video"
+            ]
+        },
+        "rear": {
+            "display": {
+                "width": 350,
+                "height": 240,
+                "pivot": "top"
+            },
+            "position": {
+                "x": 0,
+                "y": 250,
+                "z": -100
+            },
+            "subscriptions": [
+                "rear",
+                "video"
+            ]
+        }
+    },
+
+
+
+    "stage": {
+        "stage_floor": {
+            "display": {
+                "width": 600,
+                "height": 300,
+                "style": "background-color: #333; border: 1px solid #777;"
+            },
+            "rotation": {
+                "x": -90
+            },
+            "position": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+            }
+        },
+        "stage_front": {
+            "display": {
+                "width": 600,
+                "height": 50,
+                "style": "background-color: #333; border: 1px solid #777;",
+                "pivot": "top"
+            },
+            "position": {
+                "x": 0,
+                "y": 0,
+                "z": 150
+            }
+        },
+        "stage_back": {
+            "display": {
+                "width": 600,
+                "height": 300,
+                "style": "background-color: #333; border: 1px solid #777;",
+                "pivot": "top"
+            },
+            "position": {
+                "x": 0,
+                "y": 300,
+                "z": -150
+            }
+        }
+    },
+
+
+
+    "lights": {
+        "floorFrontBarLeft": {
+            "device": "RGBStripLight",
+            "size": 3,
+            "display": {
+                "pivot": "top",
+                "width": 50,
+                "height": 150,
+                "style": "border: 1px solid blue;"
+            },
+            "position": {
+                "x": 200,
+                "y": 0,
+                "z": 100
+            },
+            "rotation": {
+                "x": 135
+            }
+        },
+        "floorFrontBarCenter": {
+            "device": "RGBStripLight",
+            "size": 8,
+            "display": {
+                "pivot": "top",
+                "width": 100,
+                "height": 200,
+                "style": "border: 1px solid blue;"
+            },
+            "position": {
+                "x": 0,
+                "y": 0,
+                "z": 100
+            },
+            "rotation": {
+                "x": 135
+            }
+        },
+        "floorFrontBarRight": {
+            "device": "RGBStripLight",
+            "size": 3,
+            "display": {
+                "pivot": "top",
+                "width": 50,
+                "height": 150,
+                "style": "border: 1px solid blue;"
+            },
+            "position": {
+                "x": -200,
+                "y": 0,
+                "z": 100
+            },
+            "rotation": {
+                "x": 135
+            }
+        },
+
+        "rigFrontBarLeft": {
+            "device": "RGBStripLight",
+            "size": 8,
+            "display": {
+                "pivot": "top",
+                "width": 100,
+                "height": 200,
+                "style": "border: 1px solid blue;"
+            },
+            "position": {
+                "x": -200,
+                "y": 300,
+                "z": 100
+            },
+            "rotation": {
+                "x": 45
+            }
+        },
+        "rigFrontBarCenter": {
+            "device": "RGBStripLight",
+            "size": 8,
+            "display": {
+                "pivot": "top",
+                "width": 100,
+                "height": 200,
+                "style": "border: 1px solid blue;"
+            },
+            "position": {
+                "x": 0,
+                "y": 300,
+                "z": 100
+            },
+            "rotation": {
+                "x": 45
+            }
+        },
+        "rigFrontBarRight": {
+            "device": "RGBStripLight",
+            "size": 8,
+            "display": {
+                "pivot": "top",
+                "width": 100,
+                "height": 200,
+                "style": "border: 1px solid blue;"
+            },
+            "position": {
+                "x": 200,
+                "y": 300,
+                "z": 100
+            },
+            "rotation": {
+                "x": 45
+            }
+        },
+
+
+        "floorRear1": {
+            "device": "RGBLight",
+            "display": {
+                "pivot": "top",
+                "width": 30,
+                "height": 200,
+                "style": "border: 1px solid red;"
+            },
+            "position": {
+                "x": -200,
+                "y": 0,
+                "z": -125
+            },
+            "rotation": {
+                "x": 225
+            }
+        },
+        "floorRear2": {
+            "device": "RGBLight",
+            "display": {
+                "pivot": "top",
+                "width": 30,
+                "height": 200,
+                "style": "border: 1px solid red;"
+            },
+            "position": {
+                "x": -75,
+                "y": 0,
+                "z": -125
+            },
+            "rotation": {
+                "x": 225
+            }
+        },
+        "floorRear3": {
+            "device": "RGBLight",
+            "display": {
+                "pivot": "top",
+                "width": 30,
+                "height": 200,
+                "style": "border: 1px solid red;"
+            },
+            "position": {
+                "x": 75,
+                "y": 0,
+                "z": -125
+            },
+            "rotation": {
+                "x": 225
+            }
+        },
+        "floorRear4": {
+            "device": "RGBLight",
+            "display": {
+                "pivot": "top",
+                "width": 30,
+                "height": 200,
+                "style": "border: 1px solid red;"
+            },
+            "position": {
+                "x": 200,
+                "y": 0,
+                "z": -125
+            },
+            "rotation": {
+                "x": 225
+            }
+        },
+
+        "rigRear1": {
+            "device": "RGBLight",
+            "display": {
+                "pivot": "top",
+                "width": 30,
+                "height": 200,
+                "style": "border: 1px solid red;"
+            },
+            "position": {
+                "x": -200,
+                "y": 300,
+                "z": -150
+            },
+            "rotation": {
+                "x": -45
+            }
+        },
+        "rigRear2": {
+            "device": "RGBLight",
+            "display": {
+                "pivot": "top",
+                "width": 30,
+                "height": 200,
+                "style": "border: 1px solid red;"
+            },
+            "position": {
+                "x": -75,
+                "y": 300,
+                "z": -150
+            },
+            "rotation": {
+                "x": -45
+            }
+        },
+        "rigRear3": {
+            "device": "RGBLight",
+            "display": {
+                "pivot": "top",
+                "width": 30,
+                "height": 200,
+                "style": "border: 1px solid red;"
+            },
+            "position": {
+                "x": 75,
+                "y": 300,
+                "z": -150
+            },
+            "rotation": {
+                "x": -45
+            }
+        },
+        "rigRear4": {
+            "device": "RGBLight",
+            "display": {
+                "pivot": "top",
+                "width": 30,
+                "height": 200,
+                "style": "border: 1px solid red;"
+            },
+            "position": {
+                "x": 200,
+                "y": 300,
+                "z": -150
+            },
+            "rotation": {
+                "x": -45
+            }
+        }
+
+
+
+    }
+}
