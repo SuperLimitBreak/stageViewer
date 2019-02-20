@@ -66,10 +66,16 @@ export class TimelineContainer extends React.Component {
     }
 
     lightsCommand(cmd, attrs={}) {
-        console.log(`lights.${cmd}`, attrs);
-        const msgs = [
-            Object.assign({deviceid: 'lights', func: `lights.${cmd}`, sequence_module_name: this.state.sequenceModuleName}, attrs),
-        ];
+        const msgs = [];
+        if (this.state.sequenceModuleName) {
+            console.log(`lights.${cmd}`, attrs);
+            msgs.push(Object.assign(
+                {deviceid: 'lights', func: `lights.${cmd}`, sequence_module_name: this.state.sequenceModuleName},
+                attrs,
+            ));
+        } else {
+            console.debug(`suppressing lights.${cmd} command as sequenceModuleName not specified`, attrs);
+        }
         if (cmd == 'pause') {
             msgs.push(
                 {deviceid: 'audio', func: `audio.${cmd}`},
@@ -92,7 +98,7 @@ export class TimelineContainer extends React.Component {
         return (
             <div className='timeline_container'>
                 <TimelineControls
-                    sequenceModuleNames={[...this.props.eventmap.keySeq()]}
+                    sequenceModuleNames={[...this.props.eventmap.keySeq(), '']}
                     sequenceModuleName={this.state.sequenceModuleName}
                     onSelectTrack={this.onSelectTrack}
                     lightsCommand={this.lightsCommand}
