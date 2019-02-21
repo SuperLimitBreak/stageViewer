@@ -26,8 +26,8 @@
             },
             "position": {
                 "x": 0,
-                "y": 250,
-                "z": -100
+                "y": 300,
+                "z": -140
             },
             "subscriptions": [
                 "rear",
