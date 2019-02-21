@@ -37,6 +37,13 @@ export class TimelineControls extends React.Component {
         this.props.lightsCommand('seek', {timecode: 0});
     }
 
+    onFrameBack() {
+        console.warn('FrameBack not implemented yet');
+    }
+    onFrameForward() {
+        console.warn('FrameForward not implemented yet');
+    }
+
     render() {
         const timecodeFactory = (name) => {
             return <Timecode name={name} timecode={this.props[name]} bpm={this.props.bpm} timesignature={this.props.timesignature}/>;
@@ -51,6 +58,8 @@ export class TimelineControls extends React.Component {
                         <button className="timeline_play" onClick={this.onPlay}></button>
                 }
                 <button className="timeline_stop" onClick={this.onStop}></button>
+                <button className="timeline_frame-back" onClick={this.onFrameBack}></button>
+                <button className="timeline_frame-forward" onClick={this.onFrameForward}></button>
 
                 <div className='timing_info'>
                     <div>{this.props.bpm}bpm</div>
@@ -73,5 +82,5 @@ export class TimelineControls extends React.Component {
 TimelineControls.defaultProps = {
     bpm: 120,
     timesignature: '4:4',
-    lightsCommand: ()=>{}
+    lightsCommand: ()=>{},
 };

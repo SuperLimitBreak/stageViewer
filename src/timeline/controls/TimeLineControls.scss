@@ -28,3 +28,9 @@
 .timeline_controls button.timeline_stop::after {
     content: "◼";
 }
+.timeline_controls button.timeline_frame-back::after {
+    content: "◃";
+}
+.timeline_controls button.timeline_frame-forward::after {
+    content: "▹";
+}
