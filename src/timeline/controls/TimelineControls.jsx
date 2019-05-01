@@ -19,6 +19,8 @@ export class TimelineControls extends React.Component {
         this.onPlay = this.onPlay.bind(this);
         this.onPause = this.onPause.bind(this);
         this.onStop = this.onStop.bind(this);
+        this.onFrameBack = this.onFrameBack.bind(this);
+        this.onFrameForward = this.onFrameForward.bind(this);
     }
 
     onPlay() {
@@ -38,10 +40,10 @@ export class TimelineControls extends React.Component {
     }
 
     onFrameBack() {
-        console.warn('FrameBack not implemented yet');
+        this.props.lightsCommand('seek', {timecode: this.props.cursorPosition, frame_offset: -1});
     }
     onFrameForward() {
-        console.warn('FrameForward not implemented yet');
+        this.props.lightsCommand('seek', {timecode: this.props.cursorPosition, frame_offset: +1});
     }
 
     render() {
