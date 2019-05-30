@@ -8,7 +8,7 @@ import * as THREE from 'three';
 import React from 'react';
 import {render} from 'react-dom';
 
-import {SubscriptionSocketReconnect} from 'calaldees_libs/es6/websocket';
+import {SubscriptionSocketReconnect} from 'multisocketServer/clients/js/websocket';
 import {queryStringListOrInit} from 'calaldees_libs/es6/web';
 import {ScreenMessageRouter} from 'displayTrigger';
 
