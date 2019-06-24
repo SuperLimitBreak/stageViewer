@@ -169,7 +169,19 @@ export class Timeline extends React.Component {
                 ref={element => this.rootElement = element}
             >
                 <img
-                    src={`${this.props.url}/${this.props.sequenceModuleName}?cachebust=${this.props.cachebust}`}
+                    alt="media"
+                    class="img_media"
+                    src={`${this.props.url}/media/${this.props.sequenceModuleName}?cachebust=${this.props.cachebust}`}
+                    style={{
+                        width: `${this.state.imageWidth * this.state.zoom}px`,
+                    }}
+                    onLoad={this._boundImageObjectNaturalWidth}
+                    draggable='false'
+                />
+                <img
+                    alt="lights"
+                    class="img_lights"
+                    src={`${this.props.url}/lights/${this.props.sequenceModuleName}?cachebust=${this.props.cachebust}`}
                     style={{
                         width: `${this.state.imageWidth * this.state.zoom}px`,
                     }}
@@ -196,7 +208,7 @@ export class Timeline extends React.Component {
     }
 }
 Timeline.defaultProps = {
-    url: 'http://localhost:23487/lights',
+    url: 'http://localhost:23487',
     pixelsPerSecond: 8,
     selectionThresholdPx: 5,
     zoomFactor: 32,
