@@ -23,9 +23,10 @@ import {TimelineContainer} from './timeline/timelineContainer';
 const body = document.getElementsByTagName('body').item(0);
 const subscription_socket = new SubscriptionSocketReconnect();
 
+const urlParams = new URLSearchParams(window.location.search);
+
 
 // Timeline --------------------------------------------------------------------
-
 
 queryStringListOrInit(
     'path_eventmap',
@@ -36,7 +37,7 @@ queryStringListOrInit(
         //console.log(eventmap.toJS());
         const timelineContainerInstance = render(
             <TimelineContainer
-                host={'localhost:23487'}
+                url={urlParams.get('timeline_url') || '/timeline'}
                 pixelsPerSecond={8}
                 eventmap={eventmap}
                 sendMessages={subscription_socket.sendMessages.bind(subscription_socket)}

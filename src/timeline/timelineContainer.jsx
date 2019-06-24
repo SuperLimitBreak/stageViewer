@@ -116,7 +116,7 @@ export class TimelineContainer extends React.Component {
                 <Timeline
                     ref={(child) => { this._timeline_react_component = child; }}
 
-                    host={this.props.host}
+                    url={this.props.url}
                     pixelsPerSecond={this.props.pixelsPerSecond}
 
                     sequenceModuleName={this.state.sequenceModuleName}

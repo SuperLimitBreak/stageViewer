@@ -169,7 +169,7 @@ export class Timeline extends React.Component {
                 ref={element => this.rootElement = element}
             >
                 <img
-                    src={`http://${this.props.host}/${this.props.sequenceModuleName}?cachebust=${this.props.cachebust}`}
+                    src={`${this.props.url}/${this.props.sequenceModuleName}?cachebust=${this.props.cachebust}`}
                     style={{
                         width: `${this.state.imageWidth * this.state.zoom}px`,
                     }}
@@ -196,7 +196,7 @@ export class Timeline extends React.Component {
     }
 }
 Timeline.defaultProps = {
-    host: 'localhost',
+    url: 'http://localhost:23487/lights',
     pixelsPerSecond: 8,
     selectionThresholdPx: 5,
     zoomFactor: 32,
