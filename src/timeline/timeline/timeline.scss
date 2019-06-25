@@ -7,13 +7,26 @@
 
     overflow-x: scroll;
     overflow-y: hidden;
+
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: left;
 }
 
 .timeline img.img_media {
+    /* todo: flex? */
 }
 
 .timeline img.img_lights {
+    /* todo: flex? */
     height: 100%;
+    -ms-interpolation-mode: nearest-neighbor;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: -webkit-crisp-edges;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -o-crisp-edges;
+    image-rendering: pixelated;
 }
 
 .timeline .cursor {

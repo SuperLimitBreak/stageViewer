@@ -10,7 +10,9 @@ export class Timeline extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            imageWidth: 0,
+            imageWidthLights: 0,
+            imageWidthMedia: 0,
+            imageHeightMedia: 0,
             selecting: null,
             zoom: 1,
         };
@@ -26,7 +28,7 @@ export class Timeline extends React.Component {
         this.hasSelection = this.hasSelection.bind(this);
         this.inSelection = this.inSelection.bind(this);
         this.clearSelection = this.clearSelection.bind(this);
-        this._boundImageObjectNaturalWidth = this._boundImageObjectNaturalWidth.bind(this);
+        //this._boundImageObjectNaturalWidth = this._boundImageObjectNaturalWidth.bind(this);
         this._event_to_timecode = this._event_to_timecode.bind(this);
     }
 
@@ -150,11 +152,11 @@ export class Timeline extends React.Component {
         return (timecode * (this.props.pixelsPerSecond * (zoom_override || this.state.zoom))); //- this.rootElement.scrollLeft;
     }
 
-    _boundImageObjectNaturalWidth(thisComponentInstance) {
-        // CSS always enforces correct aspect ratio scaling unless absolute values are specified.
-        // We want to scale 'height' but preserve naturalWidth. We have to enforce this width property manually with js
-        this.setState({imageWidth: thisComponentInstance.target.naturalWidth});
-    }
+    //_boundImageObjectNaturalWidth(thisComponentInstance) {
+    //    // CSS always enforces correct aspect ratio scaling unless absolute values are specified.
+    //    // We want to scale 'height' but preserve naturalWidth. We have to enforce this width property manually with js
+    //    this.setState({imageWidthLights: thisComponentInstance.target.naturalWidth});
+    //}
 
     render() {
         return (
@@ -173,9 +175,14 @@ export class Timeline extends React.Component {
                     class="img_media"
                     src={`${this.props.url}/media/${this.props.sequenceModuleName}?cachebust=${this.props.cachebust}`}
                     style={{
-                        width: `${this.state.imageWidth * this.state.zoom}px`,
+                        width: `${this.state.imageWidthMedia * this.state.zoom}px`,
+                        height: `${this.state.imageHeightMedia}px`,
                     }}
-                    onLoad={this._boundImageObjectNaturalWidth}
+                    //onLoad={this._boundImageObjectNaturalWidth}
+                    onLoad={(thisElement) => this.setState({
+                        imageWidthMedia: thisElement.target.naturalWidth,
+                        imageHeightMedia: thisElement.target.naturalHeight,
+                    })}
                     draggable='false'
                 />
                 <img
@@ -183,9 +190,10 @@ export class Timeline extends React.Component {
                     class="img_lights"
                     src={`${this.props.url}/lights/${this.props.sequenceModuleName}?cachebust=${this.props.cachebust}`}
                     style={{
-                        width: `${this.state.imageWidth * this.state.zoom}px`,
+                        width: `${this.state.imageWidthLights * this.state.zoom}px`,
                     }}
-                    onLoad={this._boundImageObjectNaturalWidth}
+                    //onLoad={this._boundImageObjectNaturalWidth}
+                    onLoad={(thisElement) => this.setState({imageWidthLights: thisElement.target.naturalWidth})}
                     draggable='false'
                 />
                 <div
