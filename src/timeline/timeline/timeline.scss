@@ -11,16 +11,19 @@
     display: flex;
     flex-direction: column;
     flex-wrap: nowrap;
-    align-items: left;
+    align-items: flex-start;
+    align-content: flex-start;
 }
 
 .timeline img.img_media {
     /* todo: flex? */
+    flex-grow: 0;
 }
 
 .timeline img.img_lights {
+    flex-grow: 2;
     /* todo: flex? */
-    height: 100%;
+    /* height: 100%; */
     -ms-interpolation-mode: nearest-neighbor;
     image-rendering: -webkit-optimize-contrast;
     image-rendering: -webkit-crisp-edges;
