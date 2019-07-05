@@ -33,6 +33,34 @@
                 "rear",
                 "video"
             ]
+        },
+        "side_1": {
+            "display": {
+                "width": 160,
+                "height": 90
+            },
+            "position": {
+                "x": 300,
+                "y": 0,
+                "z": 0
+            },
+            "subscriptions": [
+                "side"
+            ]
+        },
+        "side_2": {
+            "display": {
+                "width": 160,
+                "height": 90
+            },
+            "position": {
+                "x": -300,
+                "y": 0,
+                "z": 0
+            },
+            "subscriptions": [
+                "side"
+            ]
         }
     },
 
