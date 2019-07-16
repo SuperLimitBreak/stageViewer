@@ -58,11 +58,17 @@ export class TimelineContainer extends React.Component {
 
     onSelectTrack(sequenceModuleName) {
         console.log('sequenceModuleName', sequenceModuleName);
+
         if (!this.props.eventmap.has(sequenceModuleName)) {console.error(`${sequenceModuleName} not in eventmap`);}
         this.props.sendMessages(...this.props.eventmap.get(sequenceModuleName).map((payload)=>payload.map((v)=>{
             return (v == 'lights.start_sequence') ? 'lights.load_sequence' : v;
         })));
         this.setState({'sequenceModuleName': sequenceModuleName});  // TODO? unneeded? is handled in subscription_socket feedback.
+
+        // Update QueryString - https://stackoverflow.com/a/41542008/3356840
+        const searchParams = new URLSearchParams(window.location.search)
+        searchParams.set('sequenceModuleName', sequenceModuleName);
+        history.pushState(null, '', window.location.pathname + '?' + searchParams.toString());
     }
 
     lightsCommand(cmd, attrs={}) {

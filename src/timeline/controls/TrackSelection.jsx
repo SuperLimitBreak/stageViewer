@@ -5,7 +5,12 @@ export class TrackSelection extends React.Component {
     constructor(props) {
         super(props);
         this.handleChange = this.handleChange.bind(this);
-        this.props.onSelectTrack(this.props.sequenceModuleNames[0]);
+
+        const urlParams = new URLSearchParams(window.location.search);
+        this.props.onSelectTrack(
+            this.props.sequenceModuleNames.indexOf(urlParams.get('sequenceModuleName')) >= 0 ?
+                urlParams.get('sequenceModuleName') : this.props.sequenceModuleNames[0]
+        );
     }
 
     handleChange(event) {
