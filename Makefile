@@ -30,6 +30,10 @@ build: install
 test: install
 	npm run test
 
+.PHONY: cloc
+cloc:
+	cloc --vcs=git
+
 clean:
 	rm -rf node_modules/
 	rm -rf static/
