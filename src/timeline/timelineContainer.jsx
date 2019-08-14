@@ -86,6 +86,7 @@ export class TimelineContainer extends React.Component {
             msgs.push(
                 {deviceid: 'audio', func: `audio.${cmd}`},
                 {deviceid: 'video', func: `video.${cmd}`},
+                {deviceid: 'video', func: `gsap.${cmd}`},
             );
         }
         this.props.sendMessages(...msgs);
