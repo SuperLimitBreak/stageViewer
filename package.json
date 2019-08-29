@@ -17,7 +17,7 @@
     "babel-polyfill": "latest",
     "babel-preset-modern-browsers": "latest",
     "babelify": "latest",
-    "copyfiles": "latest",
+    "copy-webpack-plugin": "latest",
     "css-loader": "latest",
     "eslint": "5.16.0",
     "eslint-loader": "latest",
