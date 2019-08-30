@@ -1,4 +1,5 @@
 'use strict';
+const path = require('path');
 const {buildWebpackCfg} = require('../displayTrigger/display/webpack.config.base.js');
 const webpackCfg = buildWebpackCfg(__dirname);
 
@@ -9,7 +10,10 @@ webpackCfg.plugins.push(
         { THREE: "three" }
     ),
     new CopyPlugin([
-        { from: 'node_modules/displayTrigger/src/assets', to: 'assets' },
+        {
+            from: path.join(__dirname, 'node_modules/displayTrigger/src/assets'),
+            to: 'assets',
+        },
     ]),
 );
 
