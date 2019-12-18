@@ -12,6 +12,7 @@
     "@babel/core": "latest",
     "@babel/preset-env": "latest",
     "@babel/preset-react": "latest",
+    "@msgpack/msgpack": "latest",
     "babel-eslint": "latest",
     "babel-loader": "latest",
     "babel-polyfill": "latest",
